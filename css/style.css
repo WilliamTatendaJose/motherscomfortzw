@@ -254,7 +254,7 @@ a:focus {
 }
 
 .header-logo {
-    display: block;
+    display: float;
     position: fixed;
     margin: 0px;
     max-width: 30px;
@@ -304,6 +304,7 @@ a:focus {
     border: 0;
     border-radius: 0;
     background: #273340;
+    color: #000000;
 }
 
 @media (min-width: 992px) {
@@ -835,7 +836,7 @@ a:focus {
 
 .donate .donate-text p {
     color: #ffffff;
-    font-size: 18px;
+    font-size: 22px;
 }
 
 .donate .donate-form {
