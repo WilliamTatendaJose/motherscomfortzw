@@ -15,7 +15,7 @@ $(function () {
             $this.prop("disabled", true);
 
             $.ajax({
-                url: 'api/ContactFrom',
+                url: 'http://contactfrom.azurewebsites.net/',
                 type: 'POST',
                 data: {
                     name: name,
