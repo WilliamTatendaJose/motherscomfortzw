@@ -15,7 +15,7 @@ export const developerCredit = {
   name: 'Techrehub',
 
   /** International format. Leave blank to render the credit as plain text. */
-  whatsapp: '',
+  whatsapp: '+263773447131',
 
   /**
    * Prefilled WhatsApp message. It names this site, which is how Techrehub
