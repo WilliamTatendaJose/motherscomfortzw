@@ -47,7 +47,7 @@ export function Footer({
               {settings.organisationName}
             </span>
           </div>
-          <p className="mt-4 text-sm leading-relaxed text-white/80">{settings.tagline}</p>
+          <p className="mt-4 text-sm leading-relaxed text-white/85">{settings.tagline}</p>
         </div>
 
         <div>
@@ -87,7 +87,7 @@ export function Footer({
 
         <div>
           <h2 className="font-display text-base font-bold text-white">Stay in touch</h2>
-          <p className="mt-4 text-sm text-white/80">
+          <p className="mt-4 text-sm text-white/85">
             Occasional updates on our work. No spam, and you can unsubscribe any time.
           </p>
           <NewsletterForm className="mt-4" />
@@ -111,7 +111,7 @@ export function Footer({
       </div>
 
       <div className="border-t border-white/15">
-        <div className="container-page flex flex-col gap-2 py-6 text-sm text-white/70 sm:flex-row sm:items-center sm:justify-between">
+        <div className="container-page flex flex-col gap-2 py-6 text-sm text-white/80 sm:flex-row sm:items-center sm:justify-between">
           <p>
             &copy; {new Date().getFullYear()} {settings.organisationName}. All rights reserved.
           </p>

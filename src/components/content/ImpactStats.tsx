@@ -14,7 +14,9 @@ export function ImpactStats({ stats }: { stats: ImpactStat[] }) {
             {stat.value}
           </p>
           <p className="mt-3 leading-relaxed text-white/85">{stat.label}</p>
-          {stat.source && <p className="mt-3 text-sm text-white/60">Source: {stat.source}</p>}
+          {/* /90 not /80: the card sits on bg-white/10, which lifts the
+              background and costs the smaller text its AA margin. */}
+          {stat.source && <p className="mt-3 text-sm text-white/90">Source: {stat.source}</p>}
         </li>
       ))}
     </ul>

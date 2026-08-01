@@ -16,12 +16,19 @@
   --color-brand-pink-tint: #fef4f9;
 
   --color-brand-teal: #1795a8;
-  --color-brand-teal-deep: #0e7c8b;
+  /*
+   * #0A6070 rather than the flyer's lighter #0E7C8B. The lighter tone measured
+   * 4.39:1 for teal text on the soft teal panel and failed AA for white body
+   * copy in the footer; this passes both (6.5:1 and 5.7:1). `brand-teal` keeps
+   * the original lighter tone for large fills and headings.
+   */
+  --color-brand-teal-deep: #0a6070;
   --color-brand-teal-soft: #e6f5f7;
 
   --color-ink: #2b2b3d;
   --color-ink-muted: #5b5b70;
-  --color-ink-subtle: #8a8a9c;
+  /* #8A8A9C measured 3.39:1 on white — below AA for small text. */
+  --color-ink-subtle: #6b6b7d;
 
   --color-cream: #fff9fb;
 

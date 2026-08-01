@@ -22,7 +22,10 @@ export default defineConfig([
   {
     name: 'content',
     title: "Mother's Comfort",
-    basePath: '/studio',
+    // Sanity requires every workspace basePath to have the same number of
+    // segments, so this is /studio/content rather than /studio. Visiting
+    // /studio shows the workspace picker.
+    basePath: '/studio/content',
     projectId,
     dataset,
     schema: {

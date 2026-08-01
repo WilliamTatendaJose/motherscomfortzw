@@ -54,7 +54,7 @@ export function SectionHeader({
         <p
           className={cn(
             'mb-3 font-display text-sm font-semibold tracking-[0.18em] uppercase',
-            inverse ? 'text-white/80' : 'text-brand-pink-deep',
+            inverse ? 'text-white/85' : 'text-brand-pink-deep',
           )}
         >
           {eyebrow}
