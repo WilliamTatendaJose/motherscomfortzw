@@ -136,6 +136,13 @@ export const aboutPage = defineType({
       options: { layout: 'tags' },
     }),
     defineField({ name: 'storyHeading', title: "Founder's story heading", type: 'string' }),
+    defineField({
+      name: 'storyImage',
+      title: "'Our beginning' image",
+      type: 'imageWithAlt',
+      description:
+        "Sits beside the founder's story on the About page. If you leave this empty the founder's own portrait is used instead — and if that story is set to publish anonymously, no image shows at all.",
+    }),
     defineField({ name: 'seo', type: 'seo' }),
   ],
   preview: { prepare: () => ({ title: 'About page' }) },

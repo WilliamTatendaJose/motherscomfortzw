@@ -56,7 +56,9 @@ export async function getHomeContent(): Promise<HomeContent> {
 
 export async function getAboutContent(): Promise<AboutContent> {
   const data = await sanityFetch<AboutContent>(
-    `*[_type == "aboutPage"][0]{ purpose, missionPoints, values, storyHeading }`,
+    `*[_type == "aboutPage"][0]{
+      purpose, missionPoints, values, storyHeading, storyImage${imageProjection}
+    }`,
     {},
     ['aboutPage'],
   )

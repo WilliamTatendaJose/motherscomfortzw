@@ -141,6 +141,8 @@ export type AboutContent = {
   missionPoints: string[]
   values: string[]
   storyHeading: string
+  /** Optional. Falls back to the founder's portrait when unset. */
+  storyImage?: ContentImage | null
 }
 
 export type DonateContent = {

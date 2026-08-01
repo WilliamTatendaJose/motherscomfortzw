@@ -21,6 +21,12 @@ export default async function AboutPage() {
 
   const founderStory = stories.find((story) => story.isFounderStory)
 
+  // The About page can carry its own "Our beginning" image. Falling back to the
+  // founder's portrait keeps the section illustrated for editors who only ever
+  // fill in the story — and respects anonymity, since `portrait` is already
+  // stripped upstream when a story is published anonymously.
+  const beginningImage = about.storyImage ?? founderStory?.portrait ?? null
+
   return (
     <>
       <PageHeader eyebrow="About us" title="Learn about us" intro={about.purpose} />
@@ -57,12 +63,14 @@ export default async function AboutPage() {
 
       {founderStory && (
         <Section tone="white">
-          <div className="grid items-center gap-12 lg:grid-cols-2">
-            {founderStory.portrait && (
+          <div
+            className={`grid items-center gap-12 ${beginningImage ? 'lg:grid-cols-2' : ''}`}
+          >
+            {beginningImage && (
               <div className="relative aspect-[4/3] overflow-hidden rounded-card shadow-lift">
                 <Image
-                  src={imageUrl(founderStory.portrait, { width: 900 }) ?? ''}
-                  alt={founderStory.portrait.alt}
+                  src={imageUrl(beginningImage, { width: 900 }) ?? ''}
+                  alt={beginningImage.alt}
                   fill
                   sizes="(min-width: 1024px) 45vw, 90vw"
                   className="object-cover"
