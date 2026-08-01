@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { MailIcon, PhoneIcon, PinIcon } from '@/components/icons'
+import { DeveloperCredit } from '@/components/site/DeveloperCredit'
 import { NewsletterForm } from '@/components/forms/NewsletterForm'
 import type { SiteSettings } from '@/lib/content/types'
 
@@ -111,23 +112,28 @@ export function Footer({
       </div>
 
       <div className="border-t border-white/15">
-        <div className="container-page flex flex-col gap-2 py-6 text-sm text-white/80 sm:flex-row sm:items-center sm:justify-between">
+        {/*
+         * Extra bottom padding, not the usual py-6: the floating WhatsApp
+         * button is fixed to the viewport's bottom-right and sits on top of
+         * this bar once you scroll to the end of the page, hiding whatever is
+         * on the right of it.
+         */}
+        <div className="container-page flex flex-col gap-3 pt-6 pb-24 text-sm text-white/80 sm:flex-row sm:items-center sm:justify-between">
           <p>
             &copy; {new Date().getFullYear()} {settings.organisationName}. All rights reserved.
           </p>
-          {legal.length > 0 && (
-            <div className="flex gap-4">
-              {legal.map((page) => (
-                <Link
-                  key={page.slug}
-                  href={`/${page.slug}`}
-                  className="hover:text-white hover:underline"
-                >
-                  {page.label}
-                </Link>
-              ))}
-            </div>
-          )}
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            {legal.map((page) => (
+              <Link
+                key={page.slug}
+                href={`/${page.slug}`}
+                className="hover:text-white hover:underline"
+              >
+                {page.label}
+              </Link>
+            ))}
+            <DeveloperCredit />
+          </div>
         </div>
       </div>
     </footer>

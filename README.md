@@ -159,6 +159,17 @@ re-derives the charge from the tier definition, or clamps a custom amount. Likew
 `/api/paynow/result` verifies the inbound SHA-512 hash before believing a `Paid` callback — that
 endpoint is public by necessity, and the hash is the only thing that makes it trustworthy.
 
+### Developer credit
+
+A single line in the footer bottom bar — "Website by Techrehub" — configured in
+`src/content/credit.ts`. Set `whatsapp` there to an international-format number to turn it into a
+WhatsApp link with a prefilled enquiry that names this site, which is how Techrehub can tell a lead
+came from here. While the number is blank the credit renders as plain text, so a half-configured
+credit cannot ship as a dead link.
+
+Deliberately *not* done: hidden text, off-screen links, or keyword-stuffed anchors. Those are
+search-spam signals and would put the charity's own ranking at risk for the sake of a credit line.
+
 ### Colour and contrast
 
 `#EC008C` measures 4.27:1 on white — fine for large text and icons, **not** for body copy or
