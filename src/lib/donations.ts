@@ -21,7 +21,8 @@ export type DonationRecord = {
   tierId: string | null
   tierLabel: string | null
   donorName: string | null
-  donorEmail: string
+  /** Null when the donor gave only a phone number — common here. */
+  donorEmail: string | null
   method: PaynowMethod
   phone: string | null
   note: string | null

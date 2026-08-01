@@ -14,22 +14,40 @@ export function ContactForm() {
     <form onSubmit={submit} className="relative space-y-5" noValidate>
       <Honeypot />
 
+      <Field label="Your name" name="name" error={errors.name} required>
+        <TextInput
+          id="name"
+          name="name"
+          required
+          autoComplete="name"
+          aria-invalid={errors.name ? true : undefined}
+        />
+      </Field>
+
+      {/* Phone first and email optional: most people here reach us on WhatsApp,
+          and many do not use email at all. One or the other is enough. */}
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Your name" name="name" error={errors.name} required>
+        <Field
+          label="Phone or WhatsApp"
+          name="phone"
+          error={errors.phone}
+          hint="How most people reach us"
+        >
           <TextInput
-            id="name"
-            name="name"
-            required
-            autoComplete="name"
-            aria-invalid={errors.name ? true : undefined}
+            id="phone"
+            name="phone"
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            placeholder="0771 234 567"
+            aria-invalid={errors.phone ? true : undefined}
           />
         </Field>
-        <Field label="Email address" name="email" error={errors.email} required>
+        <Field label="Email address" name="email" error={errors.email} hint="Optional">
           <TextInput
             id="email"
             name="email"
             type="email"
-            required
             autoComplete="email"
             aria-invalid={errors.email ? true : undefined}
           />

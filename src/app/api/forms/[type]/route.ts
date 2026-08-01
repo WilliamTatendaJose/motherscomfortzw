@@ -80,10 +80,14 @@ export async function POST(request: Request, context: { params: Promise<{ type: 
     ...data,
   })
 
+  // Reply-to only when there is an address; many enquirers leave only a phone
+  // number, and an empty reply-to makes some providers reject the message.
+  const email = typeof data.email === 'string' ? data.email.trim() : ''
+
   await sendNotification({
     subject: SUBJECTS[type],
     fields,
-    replyTo: typeof data.email === 'string' ? data.email : undefined,
+    replyTo: email || undefined,
   })
 
   return NextResponse.json({ ok: true, message: SUCCESS_MESSAGES[type] })

@@ -1,9 +1,26 @@
 import { NextResponse } from 'next/server'
 
 import { createDonation, createReference, resolveAmount } from '@/lib/donations'
+import { serverEnv } from '@/lib/env'
 import { initiateTransaction, isPaynowConfigured } from '@/lib/paynow/client'
 import { clientIp, rateLimit } from '@/lib/rateLimit'
 import { donationSchema, fieldErrors, toLocalMobile } from '@/lib/validation'
+
+/**
+ * Paynow requires an `authemail` on Express Checkout (its SDK rejects the
+ * transaction without a valid one) even though donors here often have no email.
+ * When a donor does not give one we send the charity's own address, so the
+ * transaction succeeds and the receipt reaches the charity rather than nobody.
+ * This is also the address Paynow's test mode expects.
+ */
+function authEmailFor(donorEmail: string | undefined): string {
+  return (
+    donorEmail?.trim() ||
+    serverEnv('PAYNOW_FALLBACK_EMAIL') ||
+    serverEnv('CONTACT_NOTIFY_EMAIL') ||
+    'info@motherscomfort.co.zw'
+  )
+}
 
 export async function POST(request: Request) {
   if (!isPaynowConfigured()) {
@@ -72,7 +89,7 @@ export async function POST(request: Request) {
     reference,
     amount: resolved.amount,
     additionalInfo: description,
-    authEmail: input.email,
+    authEmail: authEmailFor(input.email),
     method: input.method,
     phone: input.phone ? toLocalMobile(input.phone) : undefined,
   })
@@ -88,7 +105,7 @@ export async function POST(request: Request) {
     tierId: resolved.tierId,
     tierLabel: resolved.tierLabel,
     donorName: input.name || null,
-    donorEmail: input.email,
+    donorEmail: input.email || null,
     method: input.method,
     phone: input.phone ? toLocalMobile(input.phone) : null,
     note: input.note || null,

@@ -38,6 +38,7 @@ export function DonationForm({ tiers }: { tiers: DonationTier[] }) {
 
   const activeTier = tiers.find((tier) => tier._id === selectedTier) ?? null
   const amount = activeTier ? activeTier.amount : Number.parseFloat(customAmount || '0')
+  const isMobileMoney = method !== 'web'
 
   function chooseTier(id: string) {
     setSelectedTier(id)
@@ -180,24 +181,12 @@ export function DonationForm({ tiers }: { tiers: DonationTier[] }) {
         </p>
       )}
 
-      <div className="mt-6 grid gap-5 sm:grid-cols-2">
-        <Field label="Your name" name="name" error={errors.name} hint="Optional">
-          <TextInput id="name" name="name" autoComplete="name" />
-        </Field>
-        <Field label="Email address" name="email" error={errors.email} required>
-          <TextInput
-            id="email"
-            name="email"
-            type="email"
-            required
-            autoComplete="email"
-            aria-invalid={errors.email ? true : undefined}
-          />
-        </Field>
-      </div>
-
+      {/* Payment method comes before the donor's details because the phone
+          field's label and requiredness depend on which method is chosen. */}
       <fieldset className="mt-6">
-        <legend className="mb-3 font-display font-semibold text-ink">How would you like to pay?</legend>
+        <legend className="mb-3 font-display font-semibold text-ink">
+          How would you like to pay?
+        </legend>
         <div className="grid gap-2 sm:grid-cols-2">
           {methods.map((option) => (
             <label
@@ -215,7 +204,7 @@ export function DonationForm({ tiers }: { tiers: DonationTier[] }) {
                 value={option.value}
                 checked={method === option.value}
                 onChange={() => setMethod(option.value)}
-                className="mt-1 accent-[#0e7c8b]"
+                className="mt-1 accent-[#0a6070]"
               />
               <span>
                 <span className="block font-display text-sm font-semibold text-ink">
@@ -228,27 +217,47 @@ export function DonationForm({ tiers }: { tiers: DonationTier[] }) {
         </div>
       </fieldset>
 
-      {method !== 'web' && (
-        <div className="mt-5">
-          <Field
-            label="Mobile number to charge"
+      <div className="mt-6 grid gap-5 sm:grid-cols-2">
+        <Field label="Your name" name="name" error={errors.name} hint="Optional">
+          <TextInput id="name" name="name" autoComplete="name" />
+        </Field>
+        {/* One phone field, not two: for mobile money the wallet being charged
+            is the donor's own number, so asking twice would be confusing. */}
+        <Field
+          label={isMobileMoney ? 'Mobile number to charge' : 'Phone or WhatsApp'}
+          name="phone"
+          error={errors.phone}
+          hint={
+            isMobileMoney
+              ? 'The number registered for this wallet'
+              : 'So we can thank you. Optional if you give an email.'
+          }
+          required={isMobileMoney}
+        >
+          <TextInput
+            id="phone"
             name="phone"
-            error={errors.phone}
-            hint="The number registered for this wallet, e.g. 0771 234 567"
-            required
-          >
-            <TextInput
-              id="phone"
-              name="phone"
-              type="tel"
-              inputMode="tel"
-              autoComplete="tel"
-              placeholder="0771234567"
-              aria-invalid={errors.phone ? true : undefined}
-            />
-          </Field>
-        </div>
-      )}
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            placeholder="0771 234 567"
+            required={isMobileMoney}
+            aria-invalid={errors.phone ? true : undefined}
+          />
+        </Field>
+      </div>
+
+      <div className="mt-5">
+        <Field label="Email address" name="email" error={errors.email} hint="Optional">
+          <TextInput
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            aria-invalid={errors.email ? true : undefined}
+          />
+        </Field>
+      </div>
 
       <div className="mt-6">
         <FormMessage status={status} message={message} />

@@ -142,6 +142,18 @@ portrait are shown. Never read `motherName` or `portrait` directly in a template
 carry a portrait uploaded before she asked to be anonymous, so suppression cannot depend on the
 field being empty.
 
+**Email is optional; phone is the primary contact.** Most donors and enquirers here reach the
+charity by phone or WhatsApp and many do not use email at all, so requiring an address would turn
+people away. Donation, contact and volunteer forms require *one* of phone or email, not both, and
+phone is listed first. The newsletter form is the sole exception — an email is the thing being
+signed up.
+
+One consequence worth knowing: Paynow's Express Checkout rejects a transaction without a valid
+`authemail`, even though the web redirect accepts a blank one. When a donor gives no address,
+`PAYNOW_FALLBACK_EMAIL` (defaulting to `CONTACT_NOTIFY_EMAIL`) is sent instead, so the payment
+succeeds and the Paynow receipt reaches the charity rather than nobody. The donor still gets their
+wallet's own confirmation.
+
 **The donation amount is never taken from the browser.** `resolveAmount` in `src/lib/donations.ts`
 re-derives the charge from the tier definition, or clamps a custom amount. Likewise
 `/api/paynow/result` verifies the inbound SHA-512 hash before believing a `Paid` callback — that
