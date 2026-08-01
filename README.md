@@ -162,10 +162,15 @@ endpoint is public by necessity, and the hash is the only thing that makes it tr
 ### Developer credit
 
 A single line in the footer bottom bar — "Website by Techrehub" — configured in
-`src/content/credit.ts`. Set `whatsapp` there to an international-format number to turn it into a
-WhatsApp link with a prefilled enquiry that names this site, which is how Techrehub can tell a lead
-came from here. While the number is blank the credit renders as plain text, so a half-configured
-credit cannot ship as a dead link.
+`src/content/credit.ts`.
+
+It links to `website` when one is set, adding UTM tags (`utm_source=motherscomfort.co.zw`) so
+referrals are attributable in analytics. If `website` is blank it falls back to a WhatsApp link
+carrying a prefilled enquiry that names this site; if neither is set the credit renders as plain
+text, so a half-configured credit cannot ship as a dead link.
+
+The anchor is the plain brand name, and the link is `rel="noopener"` — not `noreferrer`, which
+would strip the referrer and cost attribution if the UTM tags were ever removed in transit.
 
 Deliberately *not* done: hidden text, off-screen links, or keyword-stuffed anchors. Those are
 search-spam signals and would put the charity's own ranking at risk for the sake of a credit line.

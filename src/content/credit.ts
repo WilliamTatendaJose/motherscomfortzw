@@ -6,23 +6,51 @@
  * to a single small line in the footer bottom bar so it never competes with the
  * charity's own message.
  *
- * TO ACTIVATE: set `whatsapp` below to Techrehub's number in international
- * format, e.g. '+263771234567'. While it is blank the credit still renders, but
- * as plain text rather than a link — so a half-configured credit can never ship
- * as a dead link.
+ * The credit links to the website when one is set, falling back to WhatsApp
+ * otherwise, and renders as plain text if neither is configured — so a
+ * half-configured credit can never ship as a dead link.
  */
 export const developerCredit = {
   name: 'Techrehub',
 
-  /** International format. Leave blank to render the credit as plain text. */
+  /** Preferred link target. Gets UTM tags so referrals are visible in analytics. */
+  website: 'https://www.techrehub.co.zw',
+
+  /** International format. Used only when `website` is blank. */
   whatsapp: '+263773447131',
 
   /**
-   * Prefilled WhatsApp message. It names this site, which is how Techrehub
-   * knows a lead came from here — the WhatsApp equivalent of a UTM tag.
+   * Prefilled WhatsApp message, for the fallback path. It names this site,
+   * which is how a lead gets attributed when there is no referrer to read.
    */
   enquiryMessage:
     "Hi Techrehub, I saw the Mother's Comfort website and I'd like to talk about a website for my organisation.",
+}
+
+/** Identifies this site as the referrer in the developer's analytics. */
+const UTM = {
+  utm_source: 'motherscomfort.co.zw',
+  utm_medium: 'referral',
+  utm_campaign: 'footer-credit',
+}
+
+export function websiteCreditLink(url: string): string | null {
+  const trimmed = url.trim()
+  if (!trimmed) return null
+
+  try {
+    const parsed = new URL(trimmed)
+    // Only http(s); anything else in a credit config is a mistake, and we do
+    // not want a javascript: or data: URL reaching an href.
+    if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') return null
+
+    for (const [key, value] of Object.entries(UTM)) {
+      parsed.searchParams.set(key, value)
+    }
+    return parsed.toString()
+  } catch {
+    return null
+  }
 }
 
 /**
@@ -36,4 +64,14 @@ export function whatsappEnquiryLink(number: string, message: string): string | n
   if (digits.length < 9) return null
 
   return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`
+}
+
+/** Resolves the credit's destination: website first, then WhatsApp, then none. */
+export function developerCreditHref(
+  credit: typeof developerCredit = developerCredit,
+): string | null {
+  return (
+    websiteCreditLink(credit.website) ??
+    whatsappEnquiryLink(credit.whatsapp, credit.enquiryMessage)
+  )
 }
