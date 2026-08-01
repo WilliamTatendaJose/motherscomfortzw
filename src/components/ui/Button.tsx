@@ -28,8 +28,14 @@ const sizes: Record<Size, string> = {
   lg: 'px-8 py-4 text-lg',
 }
 
+/**
+ * Note `whitespace-nowrap`: these are pill buttons, and a wrapped label breaks
+ * the shape. Also note that overriding `display` or colour through `className`
+ * does not reliably win — two utilities for the same property land on one
+ * element and the cascade decides. Add a variant, or wrap the button.
+ */
 const baseClasses =
-  'inline-flex items-center justify-center gap-2 rounded-full font-display font-semibold transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-60'
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-display font-semibold transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-60'
 
 function classesFor(variant: Variant, size: Size, className?: string) {
   return cn(baseClasses, variants[variant], sizes[size], className)
