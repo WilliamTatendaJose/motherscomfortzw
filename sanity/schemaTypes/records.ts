@@ -36,6 +36,14 @@ export const donation = defineType({
     defineField({ name: 'pollUrl', type: 'url', ...readOnly, hidden: true }),
     defineField({ name: 'createdAt', title: 'Started at', type: 'datetime', ...readOnly }),
     defineField({ name: 'paidAt', title: 'Paid at', type: 'datetime', ...readOnly }),
+    defineField({
+      name: 'isTest',
+      title: 'Test transaction',
+      type: 'boolean',
+      ...readOnly,
+      description:
+        'Stamped from PAYNOW_TEST_MODE when the donation is created. No real money moved, so these are excluded from Received and from reconciliation totals.',
+    }),
   ],
   orderings: [
     { title: 'Newest first', name: 'createdAtDesc', by: [{ field: 'createdAt', direction: 'desc' }] },
@@ -46,9 +54,10 @@ export const donation = defineType({
       status: 'status',
       email: 'donorEmail',
       createdAt: 'createdAt',
+      isTest: 'isTest',
     },
-    prepare: ({ amount, status, email, createdAt }) => ({
-      title: `$${amount ?? '?'} — ${status ?? 'Unknown'}`,
+    prepare: ({ amount, status, email, createdAt, isTest }) => ({
+      title: `$${amount ?? '?'} — ${status ?? 'Unknown'}${isTest ? ' (TEST)' : ''}`,
       subtitle: [email, createdAt ? new Date(createdAt).toLocaleString('en-GB') : null]
         .filter(Boolean)
         .join(' · '),
@@ -95,4 +104,132 @@ export const submission = defineType({
   },
 })
 
-export const recordTypes = [donation, submission]
+/**
+ * Donations that arrive outside Paynow — bank transfer, cash in hand, a direct
+ * EcoCash send, or goods.
+ *
+ * Unlike `donation` this is entered by hand, so it is deliberately *not*
+ * read-only: there is no upstream system to contradict. It exists because the
+ * Paynow log alone under-reports income, and reconciliation against the bank
+ * statement is impossible if half the gifts were never written down.
+ */
+export const offlineDonation = defineType({
+  name: 'offlineDonation',
+  title: 'Offline donation',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'receivedAt',
+      title: 'Date received',
+      type: 'date',
+      description: 'The date the money or goods actually reached us, not the date you record it.',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'method',
+      title: 'How it arrived',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Bank transfer', value: 'bank' },
+          { title: 'Cash', value: 'cash' },
+          { title: 'EcoCash / OneMoney (direct)', value: 'mobile' },
+          { title: 'InnBucks (direct)', value: 'innbucks' },
+          { title: 'Goods (in-kind)', value: 'inKind' },
+          { title: 'Other', value: 'other' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'bank',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'amount',
+      title: 'Amount (USD)',
+      type: 'number',
+      description: 'Leave empty for goods with no agreed cash value.',
+      validation: (rule) =>
+        rule.custom((value, context) => {
+          const method = (context.document as { method?: string } | undefined)?.method
+          if (method === 'inKind') return true
+          if (typeof value !== 'number') return 'An amount is required unless this is a gift of goods.'
+          return value > 0 || 'The amount must be greater than zero.'
+        }),
+    }),
+    defineField({
+      name: 'inKindDescription',
+      title: 'What was given',
+      type: 'text',
+      rows: 3,
+      description: 'For gifts of goods — e.g. "12 packs of newborn nappies, 6 baby blankets".',
+      hidden: ({ document }) => document?.method !== 'inKind',
+    }),
+    defineField({
+      name: 'donorName',
+      title: 'Donor',
+      type: 'string',
+      description: 'Leave empty for an anonymous gift.',
+    }),
+    defineField({ name: 'donorContact', title: 'Donor phone or email', type: 'string' }),
+    defineField({
+      name: 'bankReference',
+      title: 'Bank / transaction reference',
+      type: 'string',
+      description:
+        'The reference as it appears on the statement. This is what makes the record reconcilable — fill it in whenever there is one.',
+    }),
+    defineField({
+      name: 'thanked',
+      title: 'Thank-you sent',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'notes',
+      type: 'text',
+      rows: 3,
+      description: 'Anything the treasurer needs to know when reconciling.',
+    }),
+    defineField({
+      name: 'recordedBy',
+      title: 'Recorded by',
+      type: 'string',
+      description: 'Who entered this, so queries can be taken back to a person.',
+    }),
+  ],
+  orderings: [
+    {
+      title: 'Newest first',
+      name: 'receivedAtDesc',
+      by: [{ field: 'receivedAt', direction: 'desc' }],
+    },
+  ],
+  preview: {
+    select: {
+      amount: 'amount',
+      method: 'method',
+      donorName: 'donorName',
+      receivedAt: 'receivedAt',
+      inKind: 'inKindDescription',
+    },
+    prepare: ({ amount, method, donorName, receivedAt, inKind }) => {
+      const labels: Record<string, string> = {
+        bank: 'Bank transfer',
+        cash: 'Cash',
+        mobile: 'EcoCash / OneMoney',
+        innbucks: 'InnBucks',
+        inKind: 'Goods',
+        other: 'Other',
+      }
+      return {
+        title:
+          method === 'inKind' && !amount
+            ? inKind || 'Gift of goods'
+            : `$${amount ?? '?'} — ${donorName || 'Anonymous'}`,
+        subtitle: [labels[method] ?? method, receivedAt].filter(Boolean).join(' · '),
+      }
+    },
+  },
+})
+
+export const recordTypes = [donation, offlineDonation, submission]

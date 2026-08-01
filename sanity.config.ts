@@ -53,8 +53,11 @@ export default defineConfig([
     dataset: recordsDataset,
     schema: { types: recordSchemaTypes },
     document: {
-      // Records are written by the site; nothing here should be hand-authored.
-      newDocumentOptions: () => [],
+      // Paynow donations and form submissions are written by the site and must
+      // not be hand-authored. Offline donations are the exception: they have no
+      // upstream system, so they can only ever be entered by hand.
+      newDocumentOptions: (prev) =>
+        prev.filter(({ templateId }) => templateId === 'offlineDonation'),
     },
     plugins: [structureTool({ structure: recordsStructure })],
   },

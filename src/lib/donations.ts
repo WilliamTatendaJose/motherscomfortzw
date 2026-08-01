@@ -4,6 +4,7 @@ import { randomBytes } from 'node:crypto'
 
 import { CUSTOM_AMOUNT_MAX, CUSTOM_AMOUNT_MIN } from '@/content/donations'
 import { getDonationTiers } from '@/lib/content'
+import { serverEnv } from '@/lib/env'
 import { writeClient } from '@/lib/sanity/writeClient'
 import type { PaynowMethod } from '@/lib/paynow/types'
 
@@ -31,6 +32,19 @@ export type DonationRecord = {
   paynowReference: string | null
   createdAt: string
   paidAt: string | null
+}
+
+/**
+ * Whether the Paynow integration is still in test mode.
+ *
+ * Paynow's response does not reliably say so, and a test payment moves no real
+ * money — so it must not be counted as income. Stamping the record at creation
+ * means a donation is judged by the mode in force when it was taken, which is
+ * what reconciliation needs. Set PAYNOW_TEST_MODE=false once the integration
+ * goes live in the merchant portal.
+ */
+function isTestMode(): boolean {
+  return serverEnv('PAYNOW_TEST_MODE').toLowerCase() === 'true'
 }
 
 /** `MC-<base36 time>-<random>`; unique, sortable, and readable in a bank statement. */
@@ -73,7 +87,7 @@ export async function createDonation(record: DonationRecord): Promise<void> {
   }
 
   try {
-    await writeClient.create({ _type: 'donation', ...record })
+    await writeClient.create({ _type: 'donation', ...record, isTest: isTestMode() })
   } catch (error) {
     // Deliberately non-fatal: the donor's payment is already under way and
     // failing here would lose them the transaction. The result webhook logs
