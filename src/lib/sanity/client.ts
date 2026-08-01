@@ -17,6 +17,16 @@ export const sanityClient: SanityClient | null = isSanityConfigured
   : null
 
 /**
+ * How long a cached query stays fresh without a webhook.
+ *
+ * The Sanity webhook (`/api/revalidate`) purges tags the moment an editor
+ * publishes, so this is only the backstop for when the webhook fails or has
+ * not been configured. Keep it short: an editor who publishes a correction and
+ * still sees the old text an hour later will assume the CMS is broken.
+ */
+const REVALIDATE_SECONDS = 60
+
+/**
  * Fetch a GROQ query, tagged so the Sanity webhook can revalidate it precisely.
  * Returns `null` on missing config or any query failure — content pages must
  * degrade to fallbacks rather than 500 because the CMS blipped.
@@ -30,7 +40,7 @@ export async function sanityFetch<T>(
 
   try {
     return await sanityClient.fetch<T>(query, params, {
-      next: { tags, revalidate: 3600 },
+      next: { tags, revalidate: REVALIDATE_SECONDS },
     })
   } catch (error) {
     console.error('[sanity] query failed, falling back to static content', {
