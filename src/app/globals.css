@@ -1,0 +1,147 @@
+@import 'tailwindcss';
+
+/*
+ * Mother's Comfort design tokens.
+ *
+ * Palette is taken from the official donation flyer, not the old stylesheet.
+ * Note the two-step pink ramp: `brand-pink` (#EC008C) measures ~4.27:1 on white,
+ * which clears WCAG AA for large text (>=24px) and UI borders but NOT for body
+ * copy or white-on-pink button labels. Anything small or load-bearing uses
+ * `brand-pink-deep` (~7:1). Never set body text in `brand-pink`.
+ */
+@theme {
+  --color-brand-pink: #ec008c;
+  --color-brand-pink-deep: #c10074;
+  --color-brand-pink-soft: #fde8f1;
+  --color-brand-pink-tint: #fef4f9;
+
+  --color-brand-teal: #1795a8;
+  --color-brand-teal-deep: #0e7c8b;
+  --color-brand-teal-soft: #e6f5f7;
+
+  --color-ink: #2b2b3d;
+  --color-ink-muted: #5b5b70;
+  --color-ink-subtle: #8a8a9c;
+
+  --color-cream: #fff9fb;
+
+  --font-display: var(--font-quicksand), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 1.25rem;
+
+  --shadow-soft: 0 2px 8px rgb(43 43 61 / 0.04), 0 12px 32px rgb(43 43 61 / 0.06);
+  --shadow-lift: 0 4px 12px rgb(43 43 61 / 0.06), 0 20px 48px rgb(43 43 61 / 0.1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-wrap: pretty;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-ink);
+    text-wrap: balance;
+  }
+
+  /* A single visible focus treatment everywhere, rather than per-component. */
+  :focus-visible {
+    outline: 3px solid var(--color-brand-teal-deep);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@utility container-page {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 80rem;
+  padding-inline: 1.25rem;
+
+  @media (width >= 48rem) {
+    padding-inline: 2rem;
+  }
+}
+
+/* Long-form editorial copy coming out of Portable Text. */
+@utility prose-story {
+  color: var(--color-ink-muted);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+
+  & > * + * {
+    margin-top: 1.25em;
+  }
+
+  & h2 {
+    font-size: 1.5rem;
+    margin-top: 2em;
+  }
+
+  & h3 {
+    font-size: 1.25rem;
+    margin-top: 1.75em;
+  }
+
+  & a {
+    color: var(--color-brand-pink-deep);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  & blockquote {
+    border-left: 4px solid var(--color-brand-pink);
+    padding-left: 1.25rem;
+    font-style: italic;
+    color: var(--color-ink);
+  }
+
+  & ul {
+    list-style: disc;
+    padding-left: 1.5rem;
+  }
+
+  & ol {
+    list-style: decimal;
+    padding-left: 1.5rem;
+  }
+
+  & li + li {
+    margin-top: 0.5em;
+  }
+
+  & strong {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+}
