@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter, Quicksand } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/next'
 
 import { siteSettings } from '@/content/site'
 import { siteUrl } from '@/lib/env'
@@ -38,7 +39,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-ZW" className={`${quicksand.variable} ${inter.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   )
 }
