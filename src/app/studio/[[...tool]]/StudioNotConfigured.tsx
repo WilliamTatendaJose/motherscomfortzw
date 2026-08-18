@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 const steps = [
   {
     command: 'npx sanity login',
@@ -79,9 +81,9 @@ export function StudioNotConfigured() {
 
         <p style={{ color: '#5b5b70', marginTop: '2rem' }}>
           Full instructions are in the project README.{' '}
-          <a href="/" style={{ color: '#c10074' }}>
+          <Link href="/" style={{ color: '#c10074' }}>
             Back to the website
-          </a>
+          </Link>
         </p>
       </div>
     </main>

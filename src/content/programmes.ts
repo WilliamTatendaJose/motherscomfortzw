@@ -1,4 +1,4 @@
-import type { ImpactStat, Programme } from '@/lib/content/types'
+import type { ImpactMetric, ImpactStat, InvolvementWay, Programme } from '@/lib/content/types'
 
 /** Migrated from the "Our Work" section of the previous about page. */
 export const programmes: Programme[] = [
@@ -84,5 +84,69 @@ export const impactStats: ImpactStat[] = [
     label: 'registers one expectant mother for antenatal care at a local polyclinic',
     source: null,
     order: 3,
+  },
+]
+
+/** Mother's Comfort's own achievements to date, shown on the Impact page. */
+export const impactMetrics: ImpactMetric[] = [
+  {
+    _id: 'metric-antenatal',
+    value: '50',
+    label: 'mothers supported with antenatal registration fees',
+    description:
+      'Antenatal registration fees provided to help women access care at Hatcliffe, Budiriro 1, Mabvuku and Rutsanana Polyclinics.',
+    order: 1,
+  },
+  {
+    _id: 'metric-newborns',
+    value: '50',
+    label: 'newborns supported',
+    description:
+      'Newborn essentials provided to mothers who needed help preparing for their babies’ arrival.',
+    order: 2,
+  },
+  {
+    _id: 'metric-counselling',
+    value: '8',
+    label: 'counselling sessions',
+    description:
+      'Providing mothers with guidance, emotional support and a safe space to navigate pregnancy and motherhood.',
+    order: 3,
+  },
+  {
+    _id: 'metric-training',
+    value: '25',
+    label: 'women trained',
+    description:
+      'Practical baking and food-production skills provided to help women explore income-generating opportunities.',
+    order: 4,
+  },
+]
+
+/** Cards in the "There is more than one way to help" grid on Get involved. */
+export const involvementWays: InvolvementWay[] = [
+  {
+    _id: 'way-volunteer',
+    title: 'Volunteer your time',
+    body: 'Help at collection drives, pack maternity packages, or lend a professional skill.',
+    order: 1,
+  },
+  {
+    _id: 'way-partner',
+    title: 'Partner with us',
+    body: 'Companies and churches can sponsor antenatal registrations or a skills training cohort.',
+    order: 2,
+  },
+  {
+    _id: 'way-drive',
+    title: 'Run a donation drive',
+    body: 'Collect new baby essentials at your workplace, school or congregation.',
+    order: 3,
+  },
+  {
+    _id: 'way-teach',
+    title: 'Teach a skill',
+    body: 'Train mothers in baking, tailoring, poultry, agriculture or detergent making.',
+    order: 4,
   },
 ]

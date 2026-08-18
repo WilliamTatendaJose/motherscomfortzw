@@ -148,6 +148,108 @@ export const aboutPage = defineType({
   preview: { prepare: () => ({ title: 'About page' }) },
 })
 
+export const whatWeDoPage = defineType({
+  name: 'whatWeDoPage',
+  title: 'What we do page',
+  type: 'document',
+  fields: [
+    defineField({ name: 'eyebrow', type: 'string', initialValue: 'Our work' }),
+    defineField({
+      name: 'heading',
+      type: 'string',
+      validation: (rule) => rule.required().max(90),
+    }),
+    defineField({
+      name: 'intro',
+      type: 'text',
+      rows: 3,
+      validation: (rule) => rule.max(320),
+    }),
+    defineField({ name: 'ctaHeading', title: 'Closing banner heading', type: 'string' }),
+    defineField({ name: 'ctaBody', title: 'Closing banner text', type: 'text', rows: 2 }),
+    defineField({ name: 'seo', type: 'seo' }),
+  ],
+  preview: { prepare: () => ({ title: 'What we do page' }) },
+})
+
+export const impactPage = defineType({
+  name: 'impactPage',
+  title: 'Impact page',
+  type: 'document',
+  groups: [
+    { name: 'intro', title: 'Introduction', default: true },
+    { name: 'conclusion', title: 'Conclusion' },
+  ],
+  fields: [
+    defineField({
+      name: 'eyebrow',
+      type: 'string',
+      group: 'intro',
+      initialValue: 'Our impact',
+    }),
+    defineField({
+      name: 'heading',
+      type: 'string',
+      group: 'intro',
+      validation: (rule) => rule.required().max(90),
+    }),
+    defineField({
+      name: 'intro',
+      type: 'text',
+      rows: 3,
+      group: 'intro',
+      validation: (rule) => rule.max(320),
+    }),
+    defineField({
+      name: 'conclusionHeading',
+      title: 'Closing section heading',
+      type: 'string',
+      group: 'conclusion',
+      initialValue: 'This is only the beginning.',
+    }),
+    defineField({
+      name: 'conclusionBody',
+      title: 'Closing section text',
+      type: 'text',
+      rows: 4,
+      group: 'conclusion',
+    }),
+    defineField({ name: 'ctaHeading', title: 'Closing banner heading', type: 'string', group: 'conclusion' }),
+    defineField({ name: 'ctaBody', title: 'Closing banner text', type: 'text', rows: 2, group: 'conclusion' }),
+    defineField({ name: 'seo', type: 'seo' }),
+  ],
+  preview: { prepare: () => ({ title: 'Impact page' }) },
+})
+
+export const getInvolvedPage = defineType({
+  name: 'getInvolvedPage',
+  title: 'Get involved page',
+  type: 'document',
+  fields: [
+    defineField({ name: 'eyebrow', type: 'string', initialValue: 'Get involved' }),
+    defineField({
+      name: 'heading',
+      type: 'string',
+      validation: (rule) => rule.required().max(90),
+    }),
+    defineField({
+      name: 'intro',
+      type: 'text',
+      rows: 3,
+      validation: (rule) => rule.max(320),
+    }),
+    defineField({
+      name: 'formHeading',
+      title: 'Form section heading',
+      type: 'string',
+      initialValue: "Tell us how you'd like to help",
+    }),
+    defineField({ name: 'formBody', title: 'Form section text', type: 'text', rows: 3 }),
+    defineField({ name: 'seo', type: 'seo' }),
+  ],
+  preview: { prepare: () => ({ title: 'Get involved page' }) },
+})
+
 export const donatePage = defineType({
   name: 'donatePage',
   title: 'Donate page',
@@ -202,7 +304,15 @@ export const donatePage = defineType({
   preview: { prepare: () => ({ title: 'Donate page' }) },
 })
 
-export const singletonTypes = [siteSettings, homePage, aboutPage, donatePage]
+export const singletonTypes = [
+  siteSettings,
+  homePage,
+  aboutPage,
+  whatWeDoPage,
+  impactPage,
+  getInvolvedPage,
+  donatePage,
+]
 
 /** Names used by `structure.ts` and by the desk's "create" filter. */
 export const singletonNames = singletonTypes.map((type) => type.name)

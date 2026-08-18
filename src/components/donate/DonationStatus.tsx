@@ -19,16 +19,13 @@ type StatusResponse = {
 const POLL_DELAYS_MS = [2000, 2000, 3000, 3000, 5000, 5000, 8000, 8000, 10000, 10000, 15000, 15000]
 
 export function DonationStatus({ reference }: { reference: string }) {
-  const [state, setState] = useState<State>('pending')
+  const [state, setState] = useState<State>(reference ? 'pending' : 'unknown')
   const [amount, setAmount] = useState<number | null>(null)
   const [exhausted, setExhausted] = useState(false)
   const attempt = useRef(0)
 
   useEffect(() => {
-    if (!reference) {
-      setState('unknown')
-      return
-    }
+    if (!reference) return
 
     let cancelled = false
     let timer: ReturnType<typeof setTimeout>

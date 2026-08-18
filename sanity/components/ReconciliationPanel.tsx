@@ -86,12 +86,18 @@ export function ReconciliationPanel() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  // Reset to a loading state as soon as the period changes, rather than in the
+  // effect below — adjusted during render so the stale results never flash.
+  const [prevPeriod, setPrevPeriod] = useState(period)
+  if (period !== prevPeriod) {
+    setPrevPeriod(period)
+    setLoading(true)
+    setError(null)
+  }
+
   useEffect(() => {
     let cancelled = false
     const { from, to } = rangeFor(period)
-
-    setLoading(true)
-    setError(null)
 
     client
       .fetch<{ online: OnlineRow[]; offline: OfflineRow[] }>(QUERY, {

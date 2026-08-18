@@ -83,7 +83,7 @@ export function DonationForm({ tiers }: { tiers: DonationTier[] }) {
 
       // Web flow: hand the donor to Paynow's hosted page.
       if (result.redirectUrl) {
-        window.location.href = result.redirectUrl
+        window.location.assign(result.redirectUrl)
         return
       }
 

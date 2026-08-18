@@ -10,9 +10,10 @@ import { ButtonLink } from '@/components/ui/Button'
 import { cn } from '@/lib/cn'
 
 const navigation = [
-  { href: '/about', label: 'About' },
-  { href: '/what-we-do', label: 'What we do' },
-  { href: '/stories', label: "A mother's story" },
+  { href: '/about', label: 'About Us' },
+  { href: '/what-we-do', label: 'Our Work' },
+  { href: '/impact', label: 'Our impact' },
+  { href: '/stories', label: "A Mother's Story" },
   { href: '/get-involved', label: 'Get involved' },
   { href: '/contact', label: 'Contact' },
 ]
@@ -23,7 +24,13 @@ export function Header({ organisationName }: { organisationName: string }) {
   const closeButtonRef = useRef<HTMLButtonElement>(null)
 
   // Close the drawer on navigation, otherwise it stays open over the new page.
-  useEffect(() => setOpen(false), [pathname])
+  // Adjusted during render (not an effect) so the drawer never paints open on
+  // the new page even for a single frame.
+  const [prevPathname, setPrevPathname] = useState(pathname)
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname)
+    setOpen(false)
+  }
 
   // Lock scroll and move focus into the drawer while it is open.
   useEffect(() => {

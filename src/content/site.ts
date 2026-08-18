@@ -1,4 +1,12 @@
-import type { AboutContent, DonateContent, HomeContent, SiteSettings } from '@/lib/content/types'
+import type {
+  AboutContent,
+  DonateContent,
+  GetInvolvedContent,
+  HomeContent,
+  ImpactContent,
+  SiteSettings,
+  WhatWeDoContent,
+} from '@/lib/content/types'
 
 /**
  * Static content migrated from the previous static site and the official
@@ -61,6 +69,37 @@ export const aboutContent: AboutContent = {
   // Source list read "Intergrity" and lowercase "transparency" — corrected here.
   values: ['Excellence', 'Nurture', 'Commitment', 'Integrity', 'Transparency'],
   storyHeading: 'How Mother’s Comfort began',
+}
+
+export const whatWeDoContent: WhatWeDoContent = {
+  eyebrow: 'Our work',
+  heading: 'Care through pregnancy, and a way forward after it',
+  intro:
+    'We support mothers with the care they need for a safe pregnancy and birth, then help them build an income and a more secure future for themselves and their children',
+  ctaHeading: 'Support this work',
+  ctaBody: '$120 covers a complete maternity support package for one mother.',
+}
+
+export const impactContent: ImpactContent = {
+  eyebrow: 'Our impact',
+  heading: 'What we have done so far',
+  intro:
+    "A look at the mothers and babies we've been able to support — and the reach we still hope to grow.",
+  conclusionHeading: 'This is only the beginning.',
+  conclusionBody:
+    'The need extends far beyond the women we have been able to reach. Many mothers across different communities and health facilities still face financial barriers to accessing antenatal care and preparing for their babies. With greater support, Mother’s Comfort can reach more women, more clinics and more communities.',
+  ctaHeading: 'Help us reach more mothers',
+  ctaBody: '$25 registers one expectant mother for antenatal care at a local polyclinic.',
+}
+
+export const getInvolvedContent: GetInvolvedContent = {
+  eyebrow: 'Get involved',
+  heading: 'There is more than one way to help',
+  intro:
+    'Whether you have time, skills, goods or a network to mobilise — there is a place for you here.',
+  formHeading: "Tell us how you'd like to help",
+  formBody:
+    "Fill in the form and we'll get back to you. If you'd rather talk it through, message us on WhatsApp — the button is at the bottom of your screen.",
 }
 
 export const donateContent: DonateContent = {

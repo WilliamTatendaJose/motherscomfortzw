@@ -14,9 +14,23 @@
 import { createClient } from '@sanity/client'
 
 import { donationTiers, inKindItems } from '../../src/content/donations'
-import { impactStats, programmeBodies, programmes } from '../../src/content/programmes'
+import {
+  impactMetrics,
+  impactStats,
+  involvementWays,
+  programmeBodies,
+  programmes,
+} from '../../src/content/programmes'
 import { stories } from '../../src/content/stories'
-import { aboutContent, donateContent, homeContent, siteSettings } from '../../src/content/site'
+import {
+  aboutContent,
+  donateContent,
+  getInvolvedContent,
+  homeContent,
+  impactContent,
+  siteSettings,
+  whatWeDoContent,
+} from '../../src/content/site'
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production'
@@ -85,6 +99,38 @@ async function run() {
     missionPoints: aboutContent.missionPoints,
     values: aboutContent.values,
     storyHeading: aboutContent.storyHeading,
+  })
+
+  documents.push({
+    _id: 'whatWeDoPage',
+    _type: 'whatWeDoPage',
+    eyebrow: whatWeDoContent.eyebrow,
+    heading: whatWeDoContent.heading,
+    intro: whatWeDoContent.intro,
+    ctaHeading: whatWeDoContent.ctaHeading,
+    ctaBody: whatWeDoContent.ctaBody,
+  })
+
+  documents.push({
+    _id: 'impactPage',
+    _type: 'impactPage',
+    eyebrow: impactContent.eyebrow,
+    heading: impactContent.heading,
+    intro: impactContent.intro,
+    conclusionHeading: impactContent.conclusionHeading,
+    conclusionBody: impactContent.conclusionBody,
+    ctaHeading: impactContent.ctaHeading,
+    ctaBody: impactContent.ctaBody,
+  })
+
+  documents.push({
+    _id: 'getInvolvedPage',
+    _type: 'getInvolvedPage',
+    eyebrow: getInvolvedContent.eyebrow,
+    heading: getInvolvedContent.heading,
+    intro: getInvolvedContent.intro,
+    formHeading: getInvolvedContent.formHeading,
+    formBody: getInvolvedContent.formBody,
   })
 
   documents.push({
@@ -170,6 +216,27 @@ async function run() {
       label: stat.label,
       source: stat.source ?? undefined,
       order: stat.order,
+    })
+  }
+
+  for (const metric of impactMetrics) {
+    documents.push({
+      _id: metric._id,
+      _type: 'impactMetric',
+      value: metric.value,
+      label: metric.label,
+      description: metric.description ?? undefined,
+      order: metric.order,
+    })
+  }
+
+  for (const way of involvementWays) {
+    documents.push({
+      _id: way._id,
+      _type: 'involvementWay',
+      title: way.title,
+      body: way.body,
+      order: way.order,
     })
   }
 

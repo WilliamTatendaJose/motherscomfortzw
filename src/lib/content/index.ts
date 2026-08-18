@@ -1,9 +1,23 @@
 import 'server-only'
 
 import { donationTiers, inKindItems } from '@/content/donations'
-import { impactStats, programmeBodies, programmes } from '@/content/programmes'
+import {
+  impactMetrics,
+  impactStats,
+  involvementWays,
+  programmeBodies,
+  programmes,
+} from '@/content/programmes'
 import { stories } from '@/content/stories'
-import { aboutContent, donateContent, homeContent, siteSettings } from '@/content/site'
+import {
+  aboutContent,
+  donateContent,
+  getInvolvedContent,
+  homeContent,
+  impactContent,
+  siteSettings,
+  whatWeDoContent,
+} from '@/content/site'
 import { imageProjection } from '@/lib/sanity/image'
 import { sanityFetch } from '@/lib/sanity/client'
 import type {
@@ -11,14 +25,19 @@ import type {
   DonateContent,
   DonationTier,
   Faq,
+  GetInvolvedContent,
   HomeContent,
+  ImpactContent,
+  ImpactMetric,
   ImpactStat,
   InKindItem,
+  InvolvementWay,
   Programme,
   SiteEvent,
   SiteSettings,
   Story,
   TeamMember,
+  WhatWeDoContent,
 } from './types'
 
 /**
@@ -63,6 +82,57 @@ export async function getAboutContent(): Promise<AboutContent> {
     ['aboutPage'],
   )
   return data ?? aboutContent
+}
+
+export async function getWhatWeDoContent(): Promise<WhatWeDoContent> {
+  const data = await sanityFetch<WhatWeDoContent>(
+    `*[_type == "whatWeDoPage"][0]{
+      eyebrow, heading, intro, ctaHeading, ctaBody
+    }`,
+    {},
+    ['whatWeDoPage'],
+  )
+  return data ?? whatWeDoContent
+}
+
+export async function getImpactContent(): Promise<ImpactContent> {
+  const data = await sanityFetch<ImpactContent>(
+    `*[_type == "impactPage"][0]{
+      eyebrow, heading, intro, conclusionHeading, conclusionBody, ctaHeading, ctaBody
+    }`,
+    {},
+    ['impactPage'],
+  )
+  return data ?? impactContent
+}
+
+export async function getImpactMetrics(): Promise<ImpactMetric[]> {
+  const data = await sanityFetch<ImpactMetric[]>(
+    `*[_type == "impactMetric"] | order(order asc){ _id, value, label, description, order }`,
+    {},
+    ['impactMetric'],
+  )
+  return nonEmpty(data) ? data : impactMetrics
+}
+
+export async function getInvolvedPageContent(): Promise<GetInvolvedContent> {
+  const data = await sanityFetch<GetInvolvedContent>(
+    `*[_type == "getInvolvedPage"][0]{
+      eyebrow, heading, intro, formHeading, formBody
+    }`,
+    {},
+    ['getInvolvedPage'],
+  )
+  return data ?? getInvolvedContent
+}
+
+export async function getInvolvementWays(): Promise<InvolvementWay[]> {
+  const data = await sanityFetch<InvolvementWay[]>(
+    `*[_type == "involvementWay"] | order(order asc){ _id, title, body, order }`,
+    {},
+    ['involvementWay'],
+  )
+  return nonEmpty(data) ? data : involvementWays
 }
 
 export async function getDonateContent(): Promise<DonateContent> {

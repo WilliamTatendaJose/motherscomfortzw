@@ -190,6 +190,54 @@ export const impactStat = defineType({
   preview: { select: { title: 'value', subtitle: 'label' } },
 })
 
+export const impactMetric = defineType({
+  name: 'impactMetric',
+  title: 'Impact metric',
+  type: 'document',
+  description:
+    "Mother's Comfort's own achievements to date, shown on the Impact page — e.g. \"50 mothers supported\". Distinct from Impact statistic, which cites external research.",
+  fields: [
+    defineField({
+      name: 'value',
+      type: 'string',
+      description: 'The headline number, e.g. "50" or "25".',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'label',
+      type: 'string',
+      description: 'What was achieved, e.g. "mothers supported with antenatal registration fees".',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'description',
+      type: 'text',
+      rows: 3,
+      description: 'A sentence or two of detail shown under the headline.',
+    }),
+    orderField,
+  ],
+  preview: { select: { title: 'value', subtitle: 'label' } },
+})
+
+export const involvementWay = defineType({
+  name: 'involvementWay',
+  title: 'Way to get involved',
+  type: 'document',
+  description: 'One card in the "There is more than one way to help" grid on the Get involved page.',
+  fields: [
+    defineField({ name: 'title', type: 'string', validation: (rule) => rule.required() }),
+    defineField({
+      name: 'body',
+      type: 'text',
+      rows: 2,
+      validation: (rule) => rule.required(),
+    }),
+    orderField,
+  ],
+  preview: { select: { title: 'title', subtitle: 'body' } },
+})
+
 export const event = defineType({
   name: 'event',
   title: 'Event',
@@ -275,6 +323,8 @@ export const collectionTypes = [
   donationTier,
   inKindItem,
   impactStat,
+  impactMetric,
+  involvementWay,
   event,
   teamMember,
   faq,

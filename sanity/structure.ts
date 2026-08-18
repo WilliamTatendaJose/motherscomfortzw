@@ -26,6 +26,18 @@ export const structure: StructureResolver = (S) =>
         .id('aboutPage')
         .child(S.document().schemaType('aboutPage').documentId('aboutPage')),
       S.listItem()
+        .title('What we do page')
+        .id('whatWeDoPage')
+        .child(S.document().schemaType('whatWeDoPage').documentId('whatWeDoPage')),
+      S.listItem()
+        .title('Impact page')
+        .id('impactPage')
+        .child(S.document().schemaType('impactPage').documentId('impactPage')),
+      S.listItem()
+        .title('Get involved page')
+        .id('getInvolvedPage')
+        .child(S.document().schemaType('getInvolvedPage').documentId('getInvolvedPage')),
+      S.listItem()
         .title('Donate page')
         .id('donatePage')
         .child(S.document().schemaType('donatePage').documentId('donatePage')),
@@ -40,6 +52,8 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem('donationTier').title('Donation tiers'),
       S.documentTypeListItem('inKindItem').title('In-kind items'),
       S.documentTypeListItem('impactStat').title('Impact statistics'),
+      S.documentTypeListItem('impactMetric').title('Impact metrics'),
+      S.documentTypeListItem('involvementWay').title('Ways to get involved'),
 
       S.divider(),
 

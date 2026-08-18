@@ -100,6 +100,15 @@ export type ImpactStat = {
   order: number
 }
 
+/** One of Mother's Comfort's own achievements to date — see the Impact page. */
+export type ImpactMetric = {
+  _id: string
+  value: string
+  label: string
+  description?: string | null
+  order: number
+}
+
 export type SiteEvent = {
   _id: string
   title: string
@@ -143,6 +152,40 @@ export type AboutContent = {
   storyHeading: string
   /** Optional. Falls back to the founder's portrait when unset. */
   storyImage?: ContentImage | null
+}
+
+export type WhatWeDoContent = {
+  eyebrow: string
+  heading: string
+  intro: string
+  ctaHeading: string
+  ctaBody: string
+}
+
+export type ImpactContent = {
+  eyebrow: string
+  heading: string
+  intro: string
+  conclusionHeading: string
+  conclusionBody: string
+  ctaHeading: string
+  ctaBody: string
+}
+
+/** One card in the "There is more than one way to help" grid. */
+export type InvolvementWay = {
+  _id: string
+  title: string
+  body: string
+  order: number
+}
+
+export type GetInvolvedContent = {
+  eyebrow: string
+  heading: string
+  intro: string
+  formHeading: string
+  formBody: string
 }
 
 export type DonateContent = {
