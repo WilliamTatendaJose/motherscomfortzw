@@ -3,14 +3,17 @@ import Link from 'next/link'
 
 import { ArrowRightIcon, ProgrammeGlyph } from '@/components/icons'
 import type { Programme } from '@/lib/content/types'
+import { imageUrl } from '@/lib/sanity/image'
 
 export function ProgrammeCard({ programme }: { programme: Programme }) {
+  const imageSrc = imageUrl(programme.image, { width: 900 })
+
   return (
     <article className="group relative flex h-full flex-col overflow-hidden rounded-card bg-white shadow-soft transition-shadow hover:shadow-lift">
       <div className="relative aspect-[4/3] overflow-hidden bg-brand-teal-soft">
-        {programme.image ? (
+        {programme.image && imageSrc ? (
           <Image
-            src={programme.image.url}
+            src={imageSrc}
             alt={programme.image.alt}
             fill
             sizes="(min-width: 768px) 33vw, 100vw"

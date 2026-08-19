@@ -21,10 +21,7 @@ export default async function WhatWeDoPage() {
         eyebrow={content.eyebrow}
         title={content.heading}
         intro={content.intro}
-        image={{
-          url: '/images/preparation.jpg',
-          alt: 'Baby essentials prepared for a new arrival',
-        }}
+        image={content.heroImage}
       />
 
       <Section tone="cream">

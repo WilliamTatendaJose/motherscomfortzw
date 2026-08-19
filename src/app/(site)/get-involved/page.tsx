@@ -7,6 +7,7 @@ import { PageHeader } from '@/components/site/PageHeader'
 import { ButtonLink } from '@/components/ui/Button'
 import { Section, SectionHeader } from '@/components/ui/Section'
 import { getInvolvedPageContent, getInvolvementWays, getUpcomingEvents } from '@/lib/content'
+import { imageUrl } from '@/lib/sanity/image'
 
 export const metadata: Metadata = {
   title: 'Get involved',
@@ -20,6 +21,7 @@ export default async function GetInvolvedPage() {
     getInvolvementWays(),
     getUpcomingEvents(),
   ])
+  const actionImage = imageUrl(content.actionImage, { width: 900 })
 
   return (
     <>
@@ -27,30 +29,34 @@ export default async function GetInvolvedPage() {
         eyebrow={content.eyebrow}
         title={content.heading}
         intro={content.intro}
-        image={{
-          url: '/images/volunteer.jpg',
-          alt: "Mother's Comfort team supporting a mother at a clinic",
-        }}
+        image={content.heroImage}
       />
 
       <Section tone="cream">
         <div className="grid gap-10 lg:grid-cols-[minmax(18rem,0.78fr)_minmax(0,1.22fr)] lg:items-center lg:gap-16">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] shadow-lift">
-            <Image
-              src="/images/training.JPG"
-              alt="Women learning practical skills at sewing machines"
-              fill
-              sizes="(min-width: 1024px) 31vw, 100vw"
-              className="object-cover"
-            />
-            <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-brand-teal-deep/95 p-5 text-white shadow-soft">
-              <p className="font-display text-xl font-bold">Bring what you can</p>
-              <p className="mt-1 text-sm leading-relaxed text-white/85">Time, skills, goods or connections can all become meaningful support.</p>
+          {content.actionImage && actionImage && (
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] shadow-lift">
+              <Image
+                src={actionImage}
+                alt={content.actionImage.alt}
+                fill
+                sizes="(min-width: 1024px) 31vw, 100vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-x-4 bottom-4 rounded-2xl bg-brand-teal-deep/95 p-5 text-white shadow-soft">
+                <p className="font-display text-xl font-bold">Bring what you can</p>
+                <p className="mt-1 text-sm leading-relaxed text-white/85">
+                  Time, skills, goods or connections can all become meaningful support.
+                </p>
+              </div>
             </div>
-          </div>
+          )}
           <div className="grid gap-5 sm:grid-cols-2">
             {ways.map((way, index) => (
-              <article key={way._id} className="group rounded-card bg-white p-6 shadow-soft transition-transform hover:-translate-y-1 hover:shadow-lift">
+              <article
+                key={way._id}
+                className="group rounded-card bg-white p-6 shadow-soft transition-transform hover:-translate-y-1 hover:shadow-lift"
+              >
                 <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-brand-pink-soft font-display font-bold text-brand-pink-deep">
                   {String(index + 1).padStart(2, '0')}
                 </span>

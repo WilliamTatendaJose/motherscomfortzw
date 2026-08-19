@@ -158,6 +158,7 @@ export type WhatWeDoContent = {
   eyebrow: string
   heading: string
   intro: string
+  heroImage: ContentImage | null
   ctaHeading: string
   ctaBody: string
 }
@@ -166,6 +167,8 @@ export type ImpactContent = {
   eyebrow: string
   heading: string
   intro: string
+  heroImage: ContentImage | null
+  supportImage: ContentImage | null
   conclusionHeading: string
   conclusionBody: string
   ctaHeading: string
@@ -184,6 +187,8 @@ export type GetInvolvedContent = {
   eyebrow: string
   heading: string
   intro: string
+  heroImage: ContentImage | null
+  actionImage: ContentImage | null
   formHeading: string
   formBody: string
 }

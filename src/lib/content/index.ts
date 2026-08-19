@@ -87,23 +87,33 @@ export async function getAboutContent(): Promise<AboutContent> {
 export async function getWhatWeDoContent(): Promise<WhatWeDoContent> {
   const data = await sanityFetch<WhatWeDoContent>(
     `*[_type == "whatWeDoPage"][0]{
-      eyebrow, heading, intro, ctaHeading, ctaBody
+      eyebrow, heading, intro, heroImage${imageProjection}, ctaHeading, ctaBody
     }`,
     {},
     ['whatWeDoPage'],
   )
-  return data ?? whatWeDoContent
+  return data
+    ? { ...whatWeDoContent, ...data, heroImage: data.heroImage ?? whatWeDoContent.heroImage }
+    : whatWeDoContent
 }
 
 export async function getImpactContent(): Promise<ImpactContent> {
   const data = await sanityFetch<ImpactContent>(
     `*[_type == "impactPage"][0]{
-      eyebrow, heading, intro, conclusionHeading, conclusionBody, ctaHeading, ctaBody
+      eyebrow, heading, intro, heroImage${imageProjection}, supportImage${imageProjection},
+      conclusionHeading, conclusionBody, ctaHeading, ctaBody
     }`,
     {},
     ['impactPage'],
   )
-  return data ?? impactContent
+  return data
+    ? {
+        ...impactContent,
+        ...data,
+        heroImage: data.heroImage ?? impactContent.heroImage,
+        supportImage: data.supportImage ?? impactContent.supportImage,
+      }
+    : impactContent
 }
 
 export async function getImpactMetrics(): Promise<ImpactMetric[]> {
@@ -118,12 +128,20 @@ export async function getImpactMetrics(): Promise<ImpactMetric[]> {
 export async function getInvolvedPageContent(): Promise<GetInvolvedContent> {
   const data = await sanityFetch<GetInvolvedContent>(
     `*[_type == "getInvolvedPage"][0]{
-      eyebrow, heading, intro, formHeading, formBody
+      eyebrow, heading, intro, heroImage${imageProjection}, actionImage${imageProjection},
+      formHeading, formBody
     }`,
     {},
     ['getInvolvedPage'],
   )
-  return data ?? getInvolvedContent
+  return data
+    ? {
+        ...getInvolvedContent,
+        ...data,
+        heroImage: data.heroImage ?? getInvolvedContent.heroImage,
+        actionImage: data.actionImage ?? getInvolvedContent.actionImage,
+      }
+    : getInvolvedContent
 }
 
 export async function getInvolvementWays(): Promise<InvolvementWay[]> {
@@ -156,7 +174,15 @@ export async function getProgrammes(): Promise<Programme[]> {
     {},
     ['programme'],
   )
-  return nonEmpty(data) ? data : programmes
+  if (!nonEmpty(data)) return programmes
+
+  return data.map((programme) => ({
+    ...programme,
+    image:
+      programme.image ??
+      programmes.find((fallback) => fallback.slug === programme.slug)?.image ??
+      null,
+  }))
 }
 
 export async function getProgramme(slug: string): Promise<Programme | null> {
@@ -167,7 +193,10 @@ export async function getProgramme(slug: string): Promise<Programme | null> {
     { slug },
     ['programme'],
   )
-  return data ?? programmes.find((p) => p.slug === slug) ?? null
+  const fallback = programmes.find((p) => p.slug === slug)
+  return data
+    ? { ...data, image: data.image ?? fallback?.image ?? null }
+    : fallback ?? null
 }
 
 /** Long-form paragraphs for a programme when it has no Portable Text body yet. */

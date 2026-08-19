@@ -76,6 +76,10 @@ export const whatWeDoContent: WhatWeDoContent = {
   heading: 'Care through pregnancy, and a way forward after it',
   intro:
     'We support mothers with the care they need for a safe pregnancy and birth, then help them build an income and a more secure future for themselves and their children',
+  heroImage: {
+    url: '/images/preparation.jpg',
+    alt: 'Baby essentials prepared for a new arrival',
+  },
   ctaHeading: 'Support this work',
   ctaBody: '$120 covers a complete maternity support package for one mother.',
 }
@@ -85,6 +89,14 @@ export const impactContent: ImpactContent = {
   heading: 'What we have done so far',
   intro:
     "A look at the mothers and babies we've been able to support — and the reach we still hope to grow.",
+  heroImage: {
+    url: '/images/volunteer.jpg',
+    alt: "Mother's Comfort team with a mother at a clinic",
+  },
+  supportImage: {
+    url: '/images/preparation.jpg',
+    alt: 'Baby essentials prepared for a new arrival',
+  },
   conclusionHeading: 'This is only the beginning.',
   conclusionBody:
     'The need extends far beyond the women we have been able to reach. Many mothers across different communities and health facilities still face financial barriers to accessing antenatal care and preparing for their babies. With greater support, Mother’s Comfort can reach more women, more clinics and more communities.',
@@ -97,6 +109,14 @@ export const getInvolvedContent: GetInvolvedContent = {
   heading: 'There is more than one way to help',
   intro:
     'Whether you have time, skills, goods or a network to mobilise — there is a place for you here.',
+  heroImage: {
+    url: '/images/volunteer.jpg',
+    alt: "Mother's Comfort team supporting a mother at a clinic",
+  },
+  actionImage: {
+    url: '/images/training.JPG',
+    alt: 'Women learning practical skills at sewing machines',
+  },
   formHeading: "Tell us how you'd like to help",
   formBody:
     "Fill in the form and we'll get back to you. If you'd rather talk it through, message us on WhatsApp — the button is at the bottom of your screen.",

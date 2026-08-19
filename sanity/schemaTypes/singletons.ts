@@ -153,20 +153,49 @@ export const whatWeDoPage = defineType({
   title: 'What we do page',
   type: 'document',
   fields: [
-    defineField({ name: 'eyebrow', type: 'string', initialValue: 'Our work' }),
+    defineField({
+      name: 'eyebrow',
+      title: 'Small label above the heading',
+      type: 'string',
+      initialValue: 'Our work',
+      description: 'Short label shown above the main page heading, for example “Our work”.',
+    }),
     defineField({
       name: 'heading',
+      title: 'Main page heading',
       type: 'string',
+      description:
+        'The large headline at the top of the page. This is currently “Care through pregnancy, and a way forward after it”.',
       validation: (rule) => rule.required().max(90),
     }),
     defineField({
       name: 'intro',
+      title: 'Supporting introduction',
       type: 'text',
       rows: 3,
+      description:
+        'The paragraph directly below the main heading. This is currently “We support mothers with the care they need for a safe pregnancy and birth, then help them build an income and a more secure future for themselves and their children”.',
       validation: (rule) => rule.max(320),
     }),
-    defineField({ name: 'ctaHeading', title: 'Closing banner heading', type: 'string' }),
-    defineField({ name: 'ctaBody', title: 'Closing banner text', type: 'text', rows: 2 }),
+    defineField({
+      name: 'heroImage',
+      title: 'Page header image',
+      type: 'imageWithAlt',
+      description: 'Shown beside the page introduction.',
+    }),
+    defineField({
+      name: 'ctaHeading',
+      title: 'Closing banner heading',
+      type: 'string',
+      description: 'The heading in the pink support banner at the bottom of the page.',
+    }),
+    defineField({
+      name: 'ctaBody',
+      title: 'Closing banner message',
+      type: 'text',
+      rows: 2,
+      description: 'The supporting message shown below the closing banner heading.',
+    }),
     defineField({ name: 'seo', type: 'seo' }),
   ],
   preview: { prepare: () => ({ title: 'What we do page' }) },
@@ -199,6 +228,14 @@ export const impactPage = defineType({
       rows: 3,
       group: 'intro',
       validation: (rule) => rule.max(320),
+    }),
+    defineField({ name: 'heroImage', title: 'Page header image', type: 'imageWithAlt', group: 'intro' }),
+    defineField({
+      name: 'supportImage',
+      title: 'Impact support image',
+      type: 'imageWithAlt',
+      group: 'intro',
+      description: 'Shown beside the impact metrics.',
     }),
     defineField({
       name: 'conclusionHeading',
@@ -237,6 +274,13 @@ export const getInvolvedPage = defineType({
       type: 'text',
       rows: 3,
       validation: (rule) => rule.max(320),
+    }),
+    defineField({ name: 'heroImage', title: 'Page header image', type: 'imageWithAlt' }),
+    defineField({
+      name: 'actionImage',
+      title: 'Ways to help image',
+      type: 'imageWithAlt',
+      description: 'Shown beside the ways to get involved.',
     }),
     defineField({
       name: 'formHeading',

@@ -1,5 +1,8 @@
 import Image from 'next/image'
 
+import type { ContentImage } from '@/lib/content/types'
+import { imageUrl } from '@/lib/sanity/image'
+
 export function PageHeader({
   eyebrow,
   title,
@@ -9,11 +12,10 @@ export function PageHeader({
   eyebrow?: string
   title: string
   intro?: string
-  image?: {
-    url: string
-    alt: string
-  }
+  image?: ContentImage | null
 }) {
+  const imageSrc = imageUrl(image, { width: 1200 })
+
   return (
     <div className="border-b border-brand-pink-soft bg-brand-pink-tint">
       <div className="container-page grid gap-10 py-12 md:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,0.82fr)] lg:items-center lg:gap-16 lg:py-20">
@@ -26,10 +28,10 @@ export function PageHeader({
           <h1 className="text-4xl leading-tight md:text-5xl">{title}</h1>
           {intro && <p className="mt-5 text-lg leading-relaxed text-ink-muted">{intro}</p>}
         </div>
-        {image && (
+        {image && imageSrc && (
           <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] bg-brand-teal-soft shadow-lift ring-8 ring-white/60">
             <Image
-              src={image.url}
+              src={imageSrc}
               alt={image.alt}
               fill
               priority
