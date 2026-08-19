@@ -2,10 +2,11 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 
 import { CTABanner } from '@/components/content/CTABanner'
+import { ImpactStats } from '@/components/content/ImpactStats'
 import { ImpactMetrics } from '@/components/content/ImpactMetrics'
 import { PageHeader } from '@/components/site/PageHeader'
-import { Section } from '@/components/ui/Section'
-import { getImpactContent, getImpactMetrics } from '@/lib/content'
+import { Section, SectionHeader } from '@/components/ui/Section'
+import { getImpactContent, getImpactMetrics, getImpactStats } from '@/lib/content'
 import { imageUrl } from '@/lib/sanity/image'
 
 export const metadata: Metadata = {
@@ -15,7 +16,11 @@ export const metadata: Metadata = {
 }
 
 export default async function ImpactPage() {
-  const [content, metrics] = await Promise.all([getImpactContent(), getImpactMetrics()])
+  const [content, metrics, stats] = await Promise.all([
+    getImpactContent(),
+    getImpactMetrics(),
+    getImpactStats(),
+  ])
   const supportImage = imageUrl(content.supportImage, { width: 900 })
 
   return (
@@ -64,6 +69,18 @@ export default async function ImpactPage() {
           </div>
         </div>
       </Section>
+
+      {stats.length > 0 && (
+        <Section tone="tealDeep">
+          <SectionHeader
+            eyebrow="Why this work matters"
+            title="The wider need"
+            intro="These context statistics help show why access to care, preparation and practical support matters for mothers and babies."
+            inverse
+          />
+          <ImpactStats stats={stats} />
+        </Section>
+      )}
 
       <Section tone="white">
         <div className="mx-auto max-w-2xl text-center">

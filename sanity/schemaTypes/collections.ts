@@ -164,17 +164,21 @@ export const inKindItem = defineType({
 
 export const impactStat = defineType({
   name: 'impactStat',
-  title: 'Impact statistic',
+  title: 'Impact context statistic',
   type: 'document',
+  description:
+    'A wider maternal-health statistic that explains why the charity’s work matters. These appear on the Impact page and homepage.',
   fields: [
     defineField({
       name: 'value',
+      title: 'Headline figure',
       type: 'string',
       description: 'The big number, e.g. "1 in 5" or "$25".',
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'label',
+      title: 'What the figure means',
       type: 'text',
       rows: 2,
       description: 'What the number means.',
@@ -182,6 +186,7 @@ export const impactStat = defineType({
     }),
     defineField({
       name: 'source',
+      title: 'Source or citation',
       type: 'string',
       description: 'Where the figure comes from. Please cite statistics.',
     }),
@@ -192,25 +197,28 @@ export const impactStat = defineType({
 
 export const impactMetric = defineType({
   name: 'impactMetric',
-  title: 'Impact metric',
+  title: 'Actual impact result',
   type: 'document',
   description:
-    "Mother's Comfort's own achievements to date, shown on the Impact page — e.g. \"50 mothers supported\". Distinct from Impact statistic, which cites external research.",
+    "Mother's Comfort's own achievements to date, shown on the Impact page — for example, \"50 mothers supported\". Keep these separate from Impact context statistics, which cite wider research.",
   fields: [
     defineField({
       name: 'value',
+      title: 'Result number',
       type: 'string',
       description: 'The headline number, e.g. "50" or "25".',
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'label',
+      title: 'What was achieved',
       type: 'string',
       description: 'What was achieved, e.g. "mothers supported with antenatal registration fees".',
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'description',
+      title: 'Supporting detail',
       type: 'text',
       rows: 3,
       description: 'A sentence or two of detail shown under the headline.',
