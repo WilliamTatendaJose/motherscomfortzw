@@ -136,4 +136,41 @@ export const socialLink = defineType({
   preview: { select: { title: 'platform', subtitle: 'url' } },
 })
 
-export const objectTypes = [blockContent, imageWithAlt, seo, labelledValue, socialLink]
+export const impactResult = defineType({
+  name: 'impactResult',
+  title: 'Actual impact result',
+  type: 'object',
+  fields: [
+    defineField({
+      name: 'value',
+      title: 'Result number',
+      type: 'string',
+      description: 'The headline number, for example “50” or “25”.',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'label',
+      title: 'What was achieved',
+      type: 'string',
+      description: 'Describe the result, for example “mothers supported with antenatal fees”.',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'description',
+      title: 'Supporting detail',
+      type: 'text',
+      rows: 3,
+      description: 'Optional detail shown below the result on the Impact page.',
+    }),
+  ],
+  preview: { select: { title: 'value', subtitle: 'label' } },
+})
+
+export const objectTypes = [
+  blockContent,
+  imageWithAlt,
+  seo,
+  labelledValue,
+  socialLink,
+  impactResult,
+]

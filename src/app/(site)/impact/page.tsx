@@ -6,7 +6,7 @@ import { ImpactStats } from '@/components/content/ImpactStats'
 import { ImpactMetrics } from '@/components/content/ImpactMetrics'
 import { PageHeader } from '@/components/site/PageHeader'
 import { Section, SectionHeader } from '@/components/ui/Section'
-import { getImpactContent, getImpactMetrics, getImpactStats } from '@/lib/content'
+import { getImpactContent, getImpactStats } from '@/lib/content'
 import { imageUrl } from '@/lib/sanity/image'
 
 export const metadata: Metadata = {
@@ -16,11 +16,7 @@ export const metadata: Metadata = {
 }
 
 export default async function ImpactPage() {
-  const [content, metrics, stats] = await Promise.all([
-    getImpactContent(),
-    getImpactMetrics(),
-    getImpactStats(),
-  ])
+  const [content, stats] = await Promise.all([getImpactContent(), getImpactStats()])
   const supportImage = imageUrl(content.supportImage, { width: 900 })
 
   return (
@@ -61,11 +57,10 @@ export default async function ImpactPage() {
                 The difference your support makes
               </p>
               <p className="mt-3 text-lg leading-relaxed text-ink-muted">
-                Every number represents a mother who had one less barrier between her and a
-                healthier start for her baby.
+                These results represent the mothers and families reached through the work so far.
               </p>
             </div>
-            <ImpactMetrics metrics={metrics} />
+            <ImpactMetrics metrics={content.impactResults} />
           </div>
         </div>
       </Section>

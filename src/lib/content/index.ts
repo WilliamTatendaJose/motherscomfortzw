@@ -49,6 +49,15 @@ import type {
 
 const nonEmpty = <T>(rows: T[] | null): rows is T[] => Array.isArray(rows) && rows.length > 0
 
+type SanityImpactContent = Omit<ImpactContent, 'impactResults'> & {
+  impactResults?: {
+    _key?: string
+    value: string
+    label: string
+    description?: string | null
+  }[] | null
+}
+
 export async function getSiteSettings(): Promise<SiteSettings> {
   const data = await sanityFetch<SiteSettings>(
     `*[_type == "siteSettings"][0]{
@@ -98,22 +107,35 @@ export async function getWhatWeDoContent(): Promise<WhatWeDoContent> {
 }
 
 export async function getImpactContent(): Promise<ImpactContent> {
-  const data = await sanityFetch<ImpactContent>(
+  const data = await sanityFetch<SanityImpactContent>(
     `*[_type == "impactPage"][0]{
-      eyebrow, heading, intro, heroImage${imageProjection}, supportImage${imageProjection},
+      eyebrow, heading, intro,
+      impactResults[]{_key, value, label, description},
+      heroImage${imageProjection}, supportImage${imageProjection},
       conclusionHeading, conclusionBody, ctaHeading, ctaBody
     }`,
     {},
     ['impactPage'],
   )
-  return data
-    ? {
-        ...impactContent,
-        ...data,
-        heroImage: data.heroImage ?? impactContent.heroImage,
-        supportImage: data.supportImage ?? impactContent.supportImage,
-      }
-    : impactContent
+  if (!data) return impactContent
+
+  const impactResults = (data.impactResults ?? [])
+    .filter((result) => result.value && result.label)
+    .map((result, index) => ({
+      _id: result._key ?? `impact-result-${index + 1}`,
+      value: result.value,
+      label: result.label,
+      description: result.description ?? null,
+      order: index + 1,
+    }))
+
+  return {
+    ...impactContent,
+    ...data,
+    impactResults: impactResults.length > 0 ? impactResults : impactMetrics,
+    heroImage: data.heroImage ?? impactContent.heroImage,
+    supportImage: data.supportImage ?? impactContent.supportImage,
+  }
 }
 
 export async function getImpactMetrics(): Promise<ImpactMetric[]> {

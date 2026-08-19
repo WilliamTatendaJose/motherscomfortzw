@@ -117,6 +117,12 @@ async function run() {
     eyebrow: impactContent.eyebrow,
     heading: impactContent.heading,
     intro: impactContent.intro,
+    impactResults: impactMetrics.map((metric) => ({
+      _key: metric._id,
+      value: metric.value,
+      label: metric.label,
+      description: metric.description ?? undefined,
+    })),
     conclusionHeading: impactContent.conclusionHeading,
     conclusionBody: impactContent.conclusionBody,
     ctaHeading: impactContent.ctaHeading,
@@ -216,17 +222,6 @@ async function run() {
       label: stat.label,
       source: stat.source ?? undefined,
       order: stat.order,
-    })
-  }
-
-  for (const metric of impactMetrics) {
-    documents.push({
-      _id: metric._id,
-      _type: 'impactMetric',
-      value: metric.value,
-      label: metric.label,
-      description: metric.description ?? undefined,
-      order: metric.order,
     })
   }
 

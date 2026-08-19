@@ -52,7 +52,6 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem('donationTier').title('Donation tiers'),
       S.documentTypeListItem('inKindItem').title('In-kind items'),
       S.documentTypeListItem('impactStat').title('Impact context statistics'),
-      S.documentTypeListItem('impactMetric').title('Actual impact results'),
       S.documentTypeListItem('involvementWay').title('Ways to get involved'),
 
       S.divider(),

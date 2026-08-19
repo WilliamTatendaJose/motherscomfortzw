@@ -7,6 +7,7 @@ import type {
   SiteSettings,
   WhatWeDoContent,
 } from '@/lib/content/types'
+import { impactMetrics } from './programmes'
 
 /**
  * Static content migrated from the previous static site and the official
@@ -89,6 +90,7 @@ export const impactContent: ImpactContent = {
   heading: 'What we have done so far',
   intro:
     "A look at the mothers and babies we've been able to support — and the reach we still hope to grow.",
+  impactResults: impactMetrics,
   heroImage: {
     url: '/images/volunteer.jpg',
     alt: "Mother's Comfort team with a mother at a clinic",

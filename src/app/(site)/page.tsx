@@ -117,7 +117,7 @@ export default async function HomePage() {
         <SectionHeader
           eyebrow="What we do"
           title="Care, counselling and a way forward"
-          intro="We support mothers through pregnancy and beyond — and then help them build an income of their own."
+          intro="We support mothers with the care they need for a safe pregnancy and birth, then help them build an income and a more secure future for themselves and their children"
         />
         <div className="grid gap-6 md:grid-cols-3">
           {programmes.map((programme) => (

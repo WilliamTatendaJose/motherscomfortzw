@@ -167,6 +167,7 @@ export type ImpactContent = {
   eyebrow: string
   heading: string
   intro: string
+  impactResults: ImpactMetric[]
   heroImage: ContentImage | null
   supportImage: ContentImage | null
   conclusionHeading: string
