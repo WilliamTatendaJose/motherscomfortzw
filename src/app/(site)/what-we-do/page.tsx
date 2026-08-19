@@ -17,9 +17,25 @@ export default async function WhatWeDoPage() {
 
   return (
     <>
-      <PageHeader eyebrow={content.eyebrow} title={content.heading} intro={content.intro} />
+      <PageHeader
+        eyebrow={content.eyebrow}
+        title={content.heading}
+        intro={content.intro}
+        image={{
+          url: '/images/preparation.jpg',
+          alt: 'Baby essentials prepared for a new arrival',
+        }}
+      />
 
       <Section tone="cream">
+        <div className="mb-10 max-w-2xl">
+          <p className="font-display text-sm font-semibold tracking-[0.18em] text-brand-pink-deep uppercase">
+            Support that meets mothers where they are
+          </p>
+          <p className="mt-3 text-lg leading-relaxed text-ink-muted">
+            From a first antenatal visit to practical skills for the years ahead, each programme is designed to make motherhood safer and more secure.
+          </p>
+        </div>
         <div className="grid gap-6 md:grid-cols-3">
           {programmes.map((programme) => (
             <ProgrammeCard key={programme._id} programme={programme} />

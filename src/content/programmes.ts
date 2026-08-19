@@ -21,8 +21,10 @@ export const programmes: Programme[] = [
     slug: 'counselling',
     icon: 'heart',
     order: 2,
-    // No genuine photograph available for this programme yet.
-    image: null,
+    image: {
+      url: '/images/volunteer.jpg',
+      alt: "Mother's Comfort team supporting a mother at a clinic",
+    },
     summary:
       'A happy mother equals a happy baby. We provide counselling to underprivileged pregnant women for their wellbeing and that of their children.',
   },
