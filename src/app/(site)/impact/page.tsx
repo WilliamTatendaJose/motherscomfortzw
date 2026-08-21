@@ -69,7 +69,7 @@ export default async function ImpactPage() {
         <Section tone="tealDeep">
           <SectionHeader
             eyebrow="Why this work matters"
-            title="The wider need"
+            title="The Wider Need"
             intro="These context statistics help show why access to care, preparation and practical support matters for mothers and babies."
             inverse
           />

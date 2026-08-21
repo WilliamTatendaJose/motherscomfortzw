@@ -42,7 +42,7 @@ export default async function HomePage() {
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <ButtonLink href="/donate" size="lg">
-                Donate now
+                Donate Now
               </ButtonLink>
               <ButtonLink href="/stories" size="lg" variant="outline">
                 Read their stories
@@ -106,8 +106,8 @@ export default async function HomePage() {
 
       <Section tone="tealDeep">
         <SectionHeader
-          eyebrow="Did you know?"
-          title="Why this work matters"
+          eyebrow="Did You Know?"
+          title="Why This Work Matters"
           inverse
         />
         <ImpactStats stats={stats} />
@@ -116,7 +116,7 @@ export default async function HomePage() {
       <Section tone="cream">
         <SectionHeader
           eyebrow="What we do"
-          title="Care, counselling and a way forward"
+          title="Care Through Pregnancy, And A Way Forward After It"
           intro="We support mothers with the care they need for a safe pregnancy and birth, then help them build an income and a more secure future for themselves and their children"
         />
         <div className="grid gap-6 md:grid-cols-3">
@@ -129,8 +129,8 @@ export default async function HomePage() {
       {stories.length > 0 && (
         <Section tone="white">
           <SectionHeader
-            eyebrow="A mother's story"
-            title="Hear it from the mothers themselves"
+            eyebrow="A Mother's Story"
+            title="Hear It From The Mothers Themselves"
             intro="Every woman has a story. These are theirs, in their own words."
           />
           <div className="grid gap-6 md:grid-cols-3">

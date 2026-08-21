@@ -12,10 +12,10 @@ import { cn } from '@/lib/cn'
 const navigation = [
   { href: '/about', label: 'About Us' },
   { href: '/what-we-do', label: 'Our Work' },
-  { href: '/impact', label: 'Our impact' },
+  { href: '/impact', label: 'Our Impact' },
   { href: '/stories', label: "A Mother's Story" },
-  { href: '/get-involved', label: 'Get involved' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/get-involved', label: 'Get Involved' },
+  { href: '/contact', label: 'Contact Us' },
 ]
 
 export function Header({ organisationName }: { organisationName: string }) {
@@ -113,7 +113,7 @@ export function Header({ organisationName }: { organisationName: string }) {
            */}
           <span className="hidden sm:block">
             <ButtonLink href="/donate" size="sm">
-              Donate now
+              Donate Now
             </ButtonLink>
           </span>
           {/*
@@ -195,7 +195,7 @@ export function Header({ organisationName }: { organisationName: string }) {
 
             <div className="border-t border-brand-pink-soft p-4">
               <ButtonLink href="/donate" className="w-full">
-                Donate now
+                Donate Now
               </ButtonLink>
             </div>
           </div>

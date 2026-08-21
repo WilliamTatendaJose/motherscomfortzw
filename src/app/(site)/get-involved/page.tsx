@@ -83,7 +83,7 @@ export default async function GetInvolvedPage() {
 
       {events.length > 0 && (
         <Section tone="cream">
-          <SectionHeader eyebrow="Events" title="Come and join us" />
+          <SectionHeader eyebrow="Events" title="Come And Join Us" />
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {events.map((event) => (
               <article key={event._id} className="rounded-card bg-white p-7 shadow-soft">

@@ -7,12 +7,13 @@ import { NewsletterForm } from '@/components/forms/NewsletterForm'
 import type { SiteSettings } from '@/lib/content/types'
 
 const links = [
-  { href: '/about', label: 'About us' },
-  { href: '/what-we-do', label: 'What we do' },
-  { href: '/stories', label: "A mother's story" },
+  { href: '/about', label: 'About Us' },
+  { href: '/what-we-do', label: 'Our Work' },
+  {href: '/impact', label: 'Our Impact' },
+  { href: '/stories', label: "A Mother's Story" },
   { href: '/donate', label: 'Donate' },
-  { href: '/get-involved', label: 'Get involved' },
-  { href: '/contact', label: 'Contact us' },
+  { href: '/get-involved', label: 'Get Involved' },
+  { href: '/contact', label: 'Contact Us' },
 ]
 
 const LEGAL_PAGES = [
@@ -52,7 +53,7 @@ export function Footer({
         </div>
 
         <div>
-          <h2 className="font-display text-base font-bold text-white">Get in touch</h2>
+          <h2 className="font-display text-base font-bold text-white">Get In Touch</h2>
           <ul className="mt-4 space-y-3 text-sm text-white/85">
             <li className="flex gap-3">
               <PinIcon className="mt-0.5 h-4 w-4 shrink-0" />
@@ -87,7 +88,7 @@ export function Footer({
         </div>
 
         <div>
-          <h2 className="font-display text-base font-bold text-white">Stay in touch</h2>
+          <h2 className="font-display text-base font-bold text-white">Stay In Touch</h2>
           <p className="mt-4 text-sm text-white/85">
             Occasional updates on our work. No spam, and you can unsubscribe any time.
           </p>
