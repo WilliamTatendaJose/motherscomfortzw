@@ -167,6 +167,24 @@ export const impactResult = defineType({
 })
 
 /**
+ * The pages an editor may add to the primary navigation. Kept as a fixed
+ * list rather than free text so a typo can't produce a broken link — see
+ * `navLink` below. Update this alongside `src/content/site.ts`'s
+ * `siteSettings.navigation` fallback and `src/app/sitemap.ts` when a route
+ * is added or removed.
+ */
+const NAV_LINK_PATHS = [
+  { title: 'About Us — /about', value: '/about' },
+  { title: 'Our Work — /what-we-do', value: '/what-we-do' },
+  { title: 'Our Impact — /impact', value: '/impact' },
+  { title: 'Gallery — /gallery', value: '/gallery' },
+  { title: "A Mother's Story — /stories", value: '/stories' },
+  { title: 'Donate — /donate', value: '/donate' },
+  { title: 'Get Involved — /get-involved', value: '/get-involved' },
+  { title: 'Contact Us — /contact', value: '/contact' },
+]
+
+/**
  * One entry in the site's primary navigation — the header menu, the mobile
  * drawer, and the footer's "Explore" column all read from the same list, so
  * adding or renaming a page updates it everywhere at once instead of needing
@@ -186,13 +204,16 @@ export const navLink = defineType({
     defineField({
       name: 'href',
       type: 'string',
-      title: 'Path',
-      description: 'An internal path starting with /, e.g. /what-we-do',
+      title: 'Page',
+      description: 'Which page this menu item links to.',
+      options: { list: NAV_LINK_PATHS },
       validation: (rule) =>
-        rule
-          .required()
-          .regex(/^\//, { name: 'internal path' })
-          .error('Must be an internal path starting with /, e.g. /about'),
+        rule.required().custom((value) => {
+          if (value && !NAV_LINK_PATHS.some((path) => path.value === value)) {
+            return 'Choose a page from the list.'
+          }
+          return true
+        }),
     }),
   ],
   preview: { select: { title: 'label', subtitle: 'href' } },
