@@ -19,3 +19,6 @@ yarn-error.log*
 next-env.d.ts
 
 coverage/
+
+# Local state from a coding-tool integration; not part of the app.
+.freebuff/
