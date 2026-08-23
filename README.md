@@ -64,6 +64,15 @@ the content dataset. The Studio exposes them as two workspaces — `/studio/cont
 Before a project exists, `/studio` renders setup instructions rather than erroring, and the site
 serves the migrated fallback content.
 
+**Every page heading, and the menu, is editable in the Studio.** Eight singletons cover it: `siteSettings`
+(also holds `navigation` — the list the header, mobile drawer and footer "Explore" column all read
+from; "Home" and "Donate now" are added automatically around it, so neither belongs in that list),
+`homePage`, `aboutPage`, `donatePage`, `whatWeDoPage`, `storiesPage`, `getInvolvedPage` and
+`contactPage`. Each has a `seo` field that overrides the browser tab title and search/social
+description for that page; leave it blank and the page falls back to its own default title.
+Renaming the organisation in Site settings also renames it in every tab title's `%s | <name>`
+suffix, since the root layout reads that live rather than from a static default.
+
 **Cache revalidation.** In Sanity Manage → API → Webhooks, add a webhook pointing at
 `https://<site>/api/revalidate`, triggering on create/update/delete, with the projection
 `{_type}` and the secret from `SANITY_REVALIDATE_SECRET`.

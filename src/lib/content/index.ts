@@ -3,14 +3,25 @@ import 'server-only'
 import { donationTiers, inKindItems } from '@/content/donations'
 import { impactStats, programmeBodies, programmes } from '@/content/programmes'
 import { stories } from '@/content/stories'
-import { aboutContent, donateContent, homeContent, siteSettings } from '@/content/site'
+import {
+  aboutContent,
+  contactContent,
+  donateContent,
+  getInvolvedContent,
+  homeContent,
+  siteSettings,
+  storiesContent,
+  whatWeDoContent,
+} from '@/content/site'
 import { imageProjection } from '@/lib/sanity/image'
 import { sanityFetch } from '@/lib/sanity/client'
 import type {
   AboutContent,
+  ContactContent,
   DonateContent,
   DonationTier,
   Faq,
+  GetInvolvedContent,
   HomeContent,
   ImpactStat,
   InKindItem,
@@ -18,8 +29,13 @@ import type {
   SiteEvent,
   SiteSettings,
   Story,
+  StoriesContent,
   TeamMember,
+  WhatWeDoContent,
 } from './types'
+
+/** Shared projection for the optional per-page SEO overrides. */
+const seoProjection = `seo{title, description}`
 
 /**
  * Every getter here follows the same shape: ask Sanity, and if Sanity is not
@@ -34,19 +50,24 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   const data = await sanityFetch<SiteSettings>(
     `*[_type == "siteSettings"][0]{
       organisationName, tagline, shortDescription, email, phone, whatsapp, address,
-      socials[]{platform, url}
+      socials[]{platform, url},
+      navigation[]{label, href}
     }`,
     {},
     ['siteSettings'],
   )
-  return data ?? siteSettings
+  if (!data) return siteSettings
+
+  // An editor who empties the list should not accidentally take the whole
+  // site's navigation down — fall back to the built-in menu for that one field.
+  return { ...data, navigation: nonEmpty(data.navigation) ? data.navigation : siteSettings.navigation }
 }
 
 export async function getHomeContent(): Promise<HomeContent> {
   const data = await sanityFetch<HomeContent>(
     `*[_type == "homePage"][0]{
       heroHeading, heroSubheading, heroImage${imageProjection},
-      introHeading, introBody, ctaHeading, ctaBody
+      introHeading, introBody, ctaHeading, ctaBody, ${seoProjection}
     }`,
     {},
     ['homePage'],
@@ -56,7 +77,7 @@ export async function getHomeContent(): Promise<HomeContent> {
 
 export async function getAboutContent(): Promise<AboutContent> {
   const data = await sanityFetch<AboutContent>(
-    `*[_type == "aboutPage"][0]{ purpose, missionPoints, values, storyHeading }`,
+    `*[_type == "aboutPage"][0]{ purpose, missionPoints, values, storyHeading, ${seoProjection} }`,
     {},
     ['aboutPage'],
   )
@@ -68,12 +89,53 @@ export async function getDonateContent(): Promise<DonateContent> {
     `*[_type == "donatePage"][0]{
       heading, intro, essentialsHeading, essentialsIntro, trainingHeading, trainingIntro,
       cashHeading, cashBody, inKindHeading, inKindBody, inKindWarning,
-      bankDetails[]{label, value}
+      bankDetails[]{label, value}, ${seoProjection}
     }`,
     {},
     ['donatePage'],
   )
   return data ?? donateContent
+}
+
+export async function getWhatWeDoContent(): Promise<WhatWeDoContent> {
+  const data = await sanityFetch<WhatWeDoContent>(
+    `*[_type == "whatWeDoPage"][0]{ eyebrow, title, intro, ctaHeading, ctaBody, ${seoProjection} }`,
+    {},
+    ['whatWeDoPage'],
+  )
+  return data ?? whatWeDoContent
+}
+
+export async function getStoriesContent(): Promise<StoriesContent> {
+  const data = await sanityFetch<StoriesContent>(
+    `*[_type == "storiesPage"][0]{
+      eyebrow, title, intro, emptyStateText, ctaHeading, ctaBody, ${seoProjection}
+    }`,
+    {},
+    ['storiesPage'],
+  )
+  return data ?? storiesContent
+}
+
+export async function getGetInvolvedContent(): Promise<GetInvolvedContent> {
+  const data = await sanityFetch<GetInvolvedContent>(
+    `*[_type == "getInvolvedPage"][0]{
+      eyebrow, title, intro, ways[]{title, body}, formHeading, formBody,
+      eventsEyebrow, eventsHeading, ${seoProjection}
+    }`,
+    {},
+    ['getInvolvedPage'],
+  )
+  return data ?? getInvolvedContent
+}
+
+export async function getContactContent(): Promise<ContactContent> {
+  const data = await sanityFetch<ContactContent>(
+    `*[_type == "contactPage"][0]{ eyebrow, title, intro, talkHeading, formHeading, ${seoProjection} }`,
+    {},
+    ['contactPage'],
+  )
+  return data ?? contactContent
 }
 
 export async function getProgrammes(): Promise<Programme[]> {

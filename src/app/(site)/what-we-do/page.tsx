@@ -4,24 +4,22 @@ import { CTABanner } from '@/components/content/CTABanner'
 import { ProgrammeCard } from '@/components/content/ProgrammeCard'
 import { PageHeader } from '@/components/site/PageHeader'
 import { Section } from '@/components/ui/Section'
-import { getProgrammes } from '@/lib/content'
+import { getProgrammes, getWhatWeDoContent } from '@/lib/content'
 
-export const metadata: Metadata = {
-  title: 'What we do',
-  description:
-    "Antenatal care, counselling and economic empowerment — how Mother's Comfort supports expectant mothers in Zimbabwe.",
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getWhatWeDoContent()
+  return {
+    title: content.seo?.title || content.title,
+    description: content.seo?.description || content.intro,
+  }
 }
 
 export default async function WhatWeDoPage() {
-  const programmes = await getProgrammes()
+  const [content, programmes] = await Promise.all([getWhatWeDoContent(), getProgrammes()])
 
   return (
     <>
-      <PageHeader
-        eyebrow="Our work"
-        title="Care through pregnancy, and a way forward after it"
-        intro="We support mothers with the care they need to deliver safely, and then help them build an income of their own."
-      />
+      <PageHeader eyebrow={content.eyebrow} title={content.title} intro={content.intro} />
 
       <Section tone="cream">
         <div className="grid gap-6 md:grid-cols-3">
@@ -31,10 +29,7 @@ export default async function WhatWeDoPage() {
         </div>
       </Section>
 
-      <CTABanner
-        heading="Support this work"
-        body="$120 covers a complete maternity support package for one mother."
-      />
+      <CTABanner heading={content.ctaHeading} body={content.ctaBody} />
     </>
   )
 }

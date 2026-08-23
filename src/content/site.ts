@@ -1,4 +1,13 @@
-import type { AboutContent, DonateContent, HomeContent, SiteSettings } from '@/lib/content/types'
+import type {
+  AboutContent,
+  ContactContent,
+  DonateContent,
+  GetInvolvedContent,
+  HomeContent,
+  SiteSettings,
+  StoriesContent,
+  WhatWeDoContent,
+} from '@/lib/content/types'
 
 /**
  * Static content migrated from the previous static site and the official
@@ -25,6 +34,16 @@ export const siteSettings: SiteSettings = {
   socials: [
     { platform: 'facebook', url: '' },
     { platform: 'instagram', url: '' },
+  ],
+  // Same list the header menu, mobile drawer and footer "Explore" column all
+  // read from. "Home" and "Donate now" are added around this in the
+  // components that need them — see Header.tsx and Footer.tsx.
+  navigation: [
+    { label: 'About', href: '/about' },
+    { label: 'What we do', href: '/what-we-do' },
+    { label: "A mother's story", href: '/stories' },
+    { label: 'Get involved', href: '/get-involved' },
+    { label: 'Contact', href: '/contact' },
   ],
 }
 
@@ -61,6 +80,11 @@ export const aboutContent: AboutContent = {
   // Source list read "Intergrity" and lowercase "transparency" — corrected here.
   values: ['Excellence', 'Nurture', 'Commitment', 'Integrity', 'Transparency'],
   storyHeading: 'How Mother’s Comfort began',
+  seo: {
+    title: 'About us',
+    description:
+      "Mother's Comfort improves the quality of life of vulnerable pregnant women and their children in Zimbabwe — our purpose, mission and values.",
+  },
 }
 
 export const donateContent: DonateContent = {
@@ -83,4 +107,86 @@ export const donateContent: DonateContent = {
   inKindWarning: 'We do NOT accept loose diapers or opened packs of wipes.',
   // TODO(client): supply real bank details, or remove this block entirely.
   bankDetails: [],
+  seo: {
+    title: 'How to donate',
+    description:
+      "Donate to Mother's Comfort by card, EcoCash, OneMoney or InnBucks — or give baby essentials. $25 registers one expectant mother for antenatal care.",
+  },
+}
+
+export const whatWeDoContent: WhatWeDoContent = {
+  eyebrow: 'Our work',
+  title: 'Care through pregnancy, and a way forward after it',
+  intro:
+    'We support mothers with the care they need to deliver safely, and then help them build an income of their own.',
+  ctaHeading: 'Support this work',
+  ctaBody: '$120 covers a complete maternity support package for one mother.',
+  seo: {
+    title: 'What we do',
+    description:
+      "Antenatal care, counselling and economic empowerment — how Mother's Comfort supports expectant mothers in Zimbabwe.",
+  },
+}
+
+export const storiesContent: StoriesContent = {
+  eyebrow: "A mother's story",
+  title: 'Every woman has a story',
+  intro:
+    'These are the mothers behind our work, in their own words — what they faced, and what changed when someone helped.',
+  emptyStateText: 'Stories are being prepared. Please check back soon.',
+  ctaHeading: 'Help write the next story',
+  ctaBody: '$25 registers one expectant mother for antenatal care at a local polyclinic.',
+  seo: {
+    title: "A mother's story",
+    description:
+      "Real stories from the mothers Mother's Comfort supports, and from the founder whose own birth experience started it all.",
+  },
+}
+
+export const getInvolvedContent: GetInvolvedContent = {
+  eyebrow: 'Get involved',
+  title: 'There is more than one way to help',
+  intro:
+    'Whether you have time, skills, goods or a network to mobilise — there is a place for you here.',
+  ways: [
+    {
+      title: 'Volunteer your time',
+      body: 'Help at collection drives, pack maternity packages, or lend a professional skill.',
+    },
+    {
+      title: 'Partner with us',
+      body: 'Companies and churches can sponsor antenatal registrations or a skills training cohort.',
+    },
+    {
+      title: 'Run a donation drive',
+      body: 'Collect new baby essentials at your workplace, school or congregation.',
+    },
+    {
+      title: 'Teach a skill',
+      body: 'Train mothers in baking, tailoring, poultry, agriculture or detergent making.',
+    },
+  ],
+  formHeading: 'Tell us how you’d like to help',
+  formBody:
+    'Fill in the form and we’ll get back to you. If you’d rather talk it through, message us on WhatsApp — the button is at the bottom of your screen.',
+  eventsEyebrow: 'Events',
+  eventsHeading: 'Come and join us',
+  seo: {
+    title: 'Get involved',
+    description:
+      "Volunteer, partner with us, run a donation drive or sponsor skills training — the ways to support Mother's Comfort.",
+  },
+}
+
+export const contactContent: ContactContent = {
+  eyebrow: 'Contact',
+  title: 'Get in touch',
+  intro: "Questions about donating, volunteering or our work? We'd love to hear from you.",
+  talkHeading: 'Talk to us',
+  formHeading: 'Send us a message',
+  seo: {
+    title: 'Contact us',
+    description:
+      "Get in touch with Mother's Comfort in Harare, Zimbabwe — by phone, email or WhatsApp.",
+  },
 }

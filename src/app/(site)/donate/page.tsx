@@ -7,10 +7,14 @@ import { PageHeader } from '@/components/site/PageHeader'
 import { Section, SectionHeader } from '@/components/ui/Section'
 import { getDonateContent, getDonationTiers, getInKindItems, getSiteSettings } from '@/lib/content'
 
-export const metadata: Metadata = {
-  title: 'How to donate',
-  description:
-    "Donate to Mother's Comfort by card, EcoCash, OneMoney or InnBucks — or give baby essentials. $25 registers one expectant mother for antenatal care.",
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getDonateContent()
+  return {
+    title: content.seo?.title || 'How to donate',
+    description:
+      content.seo?.description ||
+      "Donate to Mother's Comfort by card, EcoCash, OneMoney or InnBucks — or give baby essentials. $25 registers one expectant mother for antenatal care.",
+  }
 }
 
 export default async function DonatePage() {

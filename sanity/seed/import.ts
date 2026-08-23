@@ -16,7 +16,16 @@ import { createClient } from '@sanity/client'
 import { donationTiers, inKindItems } from '../../src/content/donations'
 import { impactStats, programmeBodies, programmes } from '../../src/content/programmes'
 import { stories } from '../../src/content/stories'
-import { aboutContent, donateContent, homeContent, siteSettings } from '../../src/content/site'
+import {
+  aboutContent,
+  contactContent,
+  donateContent,
+  getInvolvedContent,
+  homeContent,
+  siteSettings,
+  storiesContent,
+  whatWeDoContent,
+} from '../../src/content/site'
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production'
@@ -65,6 +74,12 @@ async function run() {
     email: siteSettings.email,
     // Social URLs were empty on the old site; left out so the links stay hidden.
     socials: [],
+    navigation: siteSettings.navigation.map((link, index) => ({
+      _type: 'navLink',
+      _key: `nav${index}`,
+      label: link.label,
+      href: link.href,
+    })),
   })
 
   documents.push({
@@ -76,6 +91,7 @@ async function run() {
     introBody: homeContent.introBody,
     ctaHeading: homeContent.ctaHeading,
     ctaBody: homeContent.ctaBody,
+    seo: homeContent.seo ?? undefined,
   })
 
   documents.push({
@@ -85,6 +101,7 @@ async function run() {
     missionPoints: aboutContent.missionPoints,
     values: aboutContent.values,
     storyHeading: aboutContent.storyHeading,
+    seo: aboutContent.seo ?? undefined,
   })
 
   documents.push({
@@ -102,6 +119,60 @@ async function run() {
     inKindBody: donateContent.inKindBody,
     inKindWarning: donateContent.inKindWarning,
     bankDetails: [],
+    seo: donateContent.seo ?? undefined,
+  })
+
+  documents.push({
+    _id: 'whatWeDoPage',
+    _type: 'whatWeDoPage',
+    eyebrow: whatWeDoContent.eyebrow,
+    title: whatWeDoContent.title,
+    intro: whatWeDoContent.intro,
+    ctaHeading: whatWeDoContent.ctaHeading,
+    ctaBody: whatWeDoContent.ctaBody,
+    seo: whatWeDoContent.seo ?? undefined,
+  })
+
+  documents.push({
+    _id: 'storiesPage',
+    _type: 'storiesPage',
+    eyebrow: storiesContent.eyebrow,
+    title: storiesContent.title,
+    intro: storiesContent.intro,
+    emptyStateText: storiesContent.emptyStateText,
+    ctaHeading: storiesContent.ctaHeading,
+    ctaBody: storiesContent.ctaBody,
+    seo: storiesContent.seo ?? undefined,
+  })
+
+  documents.push({
+    _id: 'getInvolvedPage',
+    _type: 'getInvolvedPage',
+    eyebrow: getInvolvedContent.eyebrow,
+    title: getInvolvedContent.title,
+    intro: getInvolvedContent.intro,
+    ways: getInvolvedContent.ways.map((way, index) => ({
+      _type: 'wayToHelp',
+      _key: `way${index}`,
+      title: way.title,
+      body: way.body,
+    })),
+    formHeading: getInvolvedContent.formHeading,
+    formBody: getInvolvedContent.formBody,
+    eventsEyebrow: getInvolvedContent.eventsEyebrow,
+    eventsHeading: getInvolvedContent.eventsHeading,
+    seo: getInvolvedContent.seo ?? undefined,
+  })
+
+  documents.push({
+    _id: 'contactPage',
+    _type: 'contactPage',
+    eyebrow: contactContent.eyebrow,
+    title: contactContent.title,
+    intro: contactContent.intro,
+    talkHeading: contactContent.talkHeading,
+    formHeading: contactContent.formHeading,
+    seo: contactContent.seo ?? undefined,
   })
 
   for (const programme of programmes) {

@@ -12,6 +12,11 @@ export type ContentImage = {
   aspectRatio?: number | null
 }
 
+export type NavigationLink = {
+  label: string
+  href: string
+}
+
 export type SiteSettings = {
   organisationName: string
   tagline: string
@@ -21,6 +26,14 @@ export type SiteSettings = {
   whatsapp: string
   address: string
   socials: { platform: string; url: string }[]
+  /** Header menu, mobile drawer and footer "Explore" column all read this. */
+  navigation: NavigationLink[]
+}
+
+/** Overrides for the browser tab title and search/social description. */
+export type SeoMeta = {
+  title?: string
+  description?: string
 }
 
 export type Programme = {
@@ -134,6 +147,7 @@ export type HomeContent = {
   introBody: string[]
   ctaHeading: string
   ctaBody: string
+  seo?: SeoMeta | null
 }
 
 export type AboutContent = {
@@ -141,6 +155,7 @@ export type AboutContent = {
   missionPoints: string[]
   values: string[]
   storyHeading: string
+  seo?: SeoMeta | null
 }
 
 export type DonateContent = {
@@ -156,4 +171,50 @@ export type DonateContent = {
   inKindBody: string
   inKindWarning: string
   bankDetails: { label: string; value: string }[]
+  seo?: SeoMeta | null
+}
+
+export type WhatWeDoContent = {
+  eyebrow: string
+  title: string
+  intro: string
+  ctaHeading: string
+  ctaBody: string
+  seo?: SeoMeta | null
+}
+
+export type StoriesContent = {
+  eyebrow: string
+  title: string
+  intro: string
+  emptyStateText: string
+  ctaHeading: string
+  ctaBody: string
+  seo?: SeoMeta | null
+}
+
+export type WayToHelp = {
+  title: string
+  body: string
+}
+
+export type GetInvolvedContent = {
+  eyebrow: string
+  title: string
+  intro: string
+  ways: WayToHelp[]
+  formHeading: string
+  formBody: string
+  eventsEyebrow: string
+  eventsHeading: string
+  seo?: SeoMeta | null
+}
+
+export type ContactContent = {
+  eyebrow: string
+  title: string
+  intro: string
+  talkHeading: string
+  formHeading: string
+  seo?: SeoMeta | null
 }

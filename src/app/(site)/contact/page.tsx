@@ -4,30 +4,28 @@ import { ContactForm } from '@/components/forms/ContactForm'
 import { MailIcon, PhoneIcon, PinIcon, WhatsAppIcon } from '@/components/icons'
 import { PageHeader } from '@/components/site/PageHeader'
 import { Section } from '@/components/ui/Section'
-import { getSiteSettings } from '@/lib/content'
+import { getContactContent, getSiteSettings } from '@/lib/content'
 
-export const metadata: Metadata = {
-  title: 'Contact us',
-  description:
-    "Get in touch with Mother's Comfort in Harare, Zimbabwe — by phone, email or WhatsApp.",
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getContactContent()
+  return {
+    title: content.seo?.title || content.title,
+    description: content.seo?.description || content.intro,
+  }
 }
 
 export default async function ContactPage() {
-  const settings = await getSiteSettings()
+  const [content, settings] = await Promise.all([getContactContent(), getSiteSettings()])
   const whatsappDigits = settings.whatsapp.replace(/[^\d]/g, '')
 
   return (
     <>
-      <PageHeader
-        eyebrow="Contact"
-        title="Get in touch"
-        intro="Questions about donating, volunteering or our work? We'd love to hear from you."
-      />
+      <PageHeader eyebrow={content.eyebrow} title={content.title} intro={content.intro} />
 
       <Section tone="cream">
         <div className="grid gap-12 lg:grid-cols-[1fr_1.3fr] lg:gap-16">
           <div>
-            <h2 className="text-2xl">Talk to us</h2>
+            <h2 className="text-2xl">{content.talkHeading}</h2>
             <ul className="mt-6 space-y-5">
               <li className="flex gap-4">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-pink-soft text-brand-pink-deep">
@@ -88,7 +86,7 @@ export default async function ContactPage() {
           </div>
 
           <div className="rounded-card bg-white p-6 shadow-soft md:p-8">
-            <h2 className="text-2xl">Send us a message</h2>
+            <h2 className="text-2xl">{content.formHeading}</h2>
             <div className="mt-6">
               <ContactForm />
             </div>

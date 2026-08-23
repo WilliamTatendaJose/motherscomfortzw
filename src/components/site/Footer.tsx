@@ -6,14 +6,13 @@ import { DeveloperCredit } from '@/components/site/DeveloperCredit'
 import { NewsletterForm } from '@/components/forms/NewsletterForm'
 import type { SiteSettings } from '@/lib/content/types'
 
-const links = [
-  { href: '/about', label: 'About us' },
-  { href: '/what-we-do', label: 'What we do' },
-  { href: '/stories', label: "A mother's story" },
-  { href: '/donate', label: 'Donate' },
-  { href: '/get-involved', label: 'Get involved' },
-  { href: '/contact', label: 'Contact us' },
-]
+/**
+ * Donate is appended here rather than living in `siteSettings.navigation` —
+ * it already has its own prominent CTA elsewhere (header button, CTA
+ * banners), so it is not part of the primary menu the header and drawer
+ * share, but a footer "Explore" column reads oddly without it.
+ */
+const DONATE_LINK = { label: 'Donate', href: '/donate' }
 
 const LEGAL_PAGES = [
   { slug: 'privacy', label: 'Privacy' },
@@ -76,7 +75,7 @@ export function Footer({
         <div>
           <h2 className="font-display text-base font-bold text-white">Explore</h2>
           <ul className="mt-4 space-y-2 text-sm">
-            {links.map((link) => (
+            {[...settings.navigation, DONATE_LINK].map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className="text-white/85 hover:text-white hover:underline">
                   {link.label}

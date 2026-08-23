@@ -136,4 +136,35 @@ export const socialLink = defineType({
   preview: { select: { title: 'platform', subtitle: 'url' } },
 })
 
-export const objectTypes = [blockContent, imageWithAlt, seo, labelledValue, socialLink]
+/**
+ * One entry in the site's primary navigation — the header menu, the mobile
+ * drawer, and the footer's "Explore" column all read from the same list, so
+ * renaming a page here updates it everywhere at once.
+ */
+export const navLink = defineType({
+  name: 'navLink',
+  title: 'Navigation link',
+  type: 'object',
+  fields: [
+    defineField({
+      name: 'label',
+      type: 'string',
+      description: 'The text shown in the menu, e.g. "What we do".',
+      validation: (rule) => rule.required().max(40),
+    }),
+    defineField({
+      name: 'href',
+      type: 'string',
+      title: 'Path',
+      description: 'An internal path starting with /, e.g. /what-we-do',
+      validation: (rule) =>
+        rule
+          .required()
+          .regex(/^\//, { name: 'internal path' })
+          .error('Must be an internal path starting with /, e.g. /about'),
+    }),
+  ],
+  preview: { select: { title: 'label', subtitle: 'href' } },
+})
+
+export const objectTypes = [blockContent, imageWithAlt, seo, labelledValue, socialLink, navLink]

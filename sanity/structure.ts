@@ -27,6 +27,22 @@ export const structure: StructureResolver = (S) =>
         .title('Donate page')
         .id('donatePage')
         .child(S.document().schemaType('donatePage').documentId('donatePage')),
+      S.listItem()
+        .title('What we do page')
+        .id('whatWeDoPage')
+        .child(S.document().schemaType('whatWeDoPage').documentId('whatWeDoPage')),
+      S.listItem()
+        .title('Stories page')
+        .id('storiesPage')
+        .child(S.document().schemaType('storiesPage').documentId('storiesPage')),
+      S.listItem()
+        .title('Get involved page')
+        .id('getInvolvedPage')
+        .child(S.document().schemaType('getInvolvedPage').documentId('getInvolvedPage')),
+      S.listItem()
+        .title('Contact page')
+        .id('contactPage')
+        .child(S.document().schemaType('contactPage').documentId('contactPage')),
 
       S.divider(),
 
