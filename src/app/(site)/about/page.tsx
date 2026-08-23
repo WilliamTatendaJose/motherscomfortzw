@@ -10,10 +10,12 @@ import { Section, SectionHeader } from '@/components/ui/Section'
 import { getAboutContent, getStories, getTeam } from '@/lib/content'
 import { imageUrl } from '@/lib/sanity/image'
 
-export const metadata: Metadata = {
-  title: 'About us',
-  description:
-    "Mother's Comfort improves the quality of life of vulnerable pregnant women and their children in Zimbabwe — our purpose, mission and values.",
+export async function generateMetadata(): Promise<Metadata> {
+  const about = await getAboutContent()
+  return {
+    title: about.seo?.title || 'About us',
+    description: about.seo?.description || about.purpose,
+  }
 }
 
 export default async function AboutPage() {

@@ -6,10 +6,14 @@ import { PageHeader } from '@/components/site/PageHeader'
 import { Section } from '@/components/ui/Section'
 import { getProgrammes, getWhatWeDoContent } from '@/lib/content'
 
-export const metadata: Metadata = {
-  title: 'What we do',
-  description:
-    "Antenatal care, counselling and economic empowerment — how Mother's Comfort supports expectant mothers in Zimbabwe.",
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getWhatWeDoContent()
+  return {
+    title: content.seo?.title || 'What we do',
+    description:
+      content.seo?.description ||
+      "Antenatal care, counselling and economic empowerment — how Mother's Comfort supports expectant mothers in Zimbabwe.",
+  }
 }
 
 export default async function WhatWeDoPage() {

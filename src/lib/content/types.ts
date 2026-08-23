@@ -12,6 +12,11 @@ export type ContentImage = {
   aspectRatio?: number | null
 }
 
+export type NavigationLink = {
+  label: string
+  href: string
+}
+
 export type SiteSettings = {
   organisationName: string
   tagline: string
@@ -21,6 +26,14 @@ export type SiteSettings = {
   whatsapp: string
   address: string
   socials: { platform: string; url: string }[]
+  /** Header menu, mobile drawer and footer "Explore" column all read this. */
+  navigation: NavigationLink[]
+}
+
+/** Overrides for the browser tab title and search/social description. */
+export type SeoMeta = {
+  title?: string
+  description?: string
 }
 
 export type Programme = {
@@ -143,6 +156,7 @@ export type HomeContent = {
   introBody: string[]
   ctaHeading: string
   ctaBody: string
+  seo?: SeoMeta | null
 }
 
 export type AboutContent = {
@@ -152,6 +166,7 @@ export type AboutContent = {
   storyHeading: string
   /** Optional. Falls back to the founder's portrait when unset. */
   storyImage?: ContentImage | null
+  seo?: SeoMeta | null
 }
 
 export type WhatWeDoContent = {
@@ -161,6 +176,7 @@ export type WhatWeDoContent = {
   heroImage: ContentImage | null
   ctaHeading: string
   ctaBody: string
+  seo?: SeoMeta | null
 }
 
 export type ImpactContent = {
@@ -174,6 +190,7 @@ export type ImpactContent = {
   conclusionBody: string
   ctaHeading: string
   ctaBody: string
+  seo?: SeoMeta | null
 }
 
 /** One card in the "There is more than one way to help" grid. */
@@ -192,6 +209,9 @@ export type GetInvolvedContent = {
   actionImage: ContentImage | null
   formHeading: string
   formBody: string
+  eventsEyebrow: string
+  eventsHeading: string
+  seo?: SeoMeta | null
 }
 
 export type DonateContent = {
@@ -207,4 +227,43 @@ export type DonateContent = {
   inKindBody: string
   inKindWarning: string
   bankDetails: { label: string; value: string }[]
+  seo?: SeoMeta | null
+}
+
+export type StoriesContent = {
+  eyebrow: string
+  heading: string
+  intro: string
+  heroImage: ContentImage | null
+  emptyStateText: string
+  ctaHeading: string
+  ctaBody: string
+  seo?: SeoMeta | null
+}
+
+export type ContactContent = {
+  eyebrow: string
+  heading: string
+  intro: string
+  heroImage: ContentImage | null
+  talkHeading: string
+  formHeading: string
+  seo?: SeoMeta | null
+}
+
+export type GalleryPhoto = {
+  _id: string
+  image: ContentImage
+  caption?: string | null
+  order: number
+}
+
+export type GalleryContent = {
+  eyebrow: string
+  heading: string
+  intro: string
+  emptyStateText: string
+  ctaHeading: string
+  ctaBody: string
+  seo?: SeoMeta | null
 }

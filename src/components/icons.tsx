@@ -191,6 +191,18 @@ export const ArrowRightIcon = (p: IconProps) => (
   </svg>
 )
 
+export const ArrowLeftIcon = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M20 12H5M11 6l-6 6 6 6" />
+  </svg>
+)
+
+export const ExpandIcon = (p: IconProps) => (
+  <svg {...base(p)}>
+    <path d="M9 4H5a1 1 0 0 0-1 1v4M15 4h4a1 1 0 0 1 1 1v4M9 20H5a1 1 0 0 1-1-1v-4M15 20h4a1 1 0 0 0 1-1v-4" />
+  </svg>
+)
+
 export const MailIcon = (p: IconProps) => (
   <svg {...base(p)}>
     <rect x="3" y="5" width="18" height="14" rx="2" />

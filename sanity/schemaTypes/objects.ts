@@ -166,6 +166,38 @@ export const impactResult = defineType({
   preview: { select: { title: 'value', subtitle: 'label' } },
 })
 
+/**
+ * One entry in the site's primary navigation — the header menu, the mobile
+ * drawer, and the footer's "Explore" column all read from the same list, so
+ * adding or renaming a page updates it everywhere at once instead of needing
+ * two hand-edited arrays kept in sync.
+ */
+export const navLink = defineType({
+  name: 'navLink',
+  title: 'Navigation link',
+  type: 'object',
+  fields: [
+    defineField({
+      name: 'label',
+      type: 'string',
+      description: 'The text shown in the menu, e.g. "What We Do".',
+      validation: (rule) => rule.required().max(40),
+    }),
+    defineField({
+      name: 'href',
+      type: 'string',
+      title: 'Path',
+      description: 'An internal path starting with /, e.g. /what-we-do',
+      validation: (rule) =>
+        rule
+          .required()
+          .regex(/^\//, { name: 'internal path' })
+          .error('Must be an internal path starting with /, e.g. /about'),
+    }),
+  ],
+  preview: { select: { title: 'label', subtitle: 'href' } },
+})
+
 export const objectTypes = [
   blockContent,
   imageWithAlt,
@@ -173,4 +205,5 @@ export const objectTypes = [
   labelledValue,
   socialLink,
   impactResult,
+  navLink,
 ]

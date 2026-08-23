@@ -38,6 +38,18 @@ export const structure: StructureResolver = (S) =>
         .id('getInvolvedPage')
         .child(S.document().schemaType('getInvolvedPage').documentId('getInvolvedPage')),
       S.listItem()
+        .title('Stories page')
+        .id('storiesPage')
+        .child(S.document().schemaType('storiesPage').documentId('storiesPage')),
+      S.listItem()
+        .title('Contact page')
+        .id('contactPage')
+        .child(S.document().schemaType('contactPage').documentId('contactPage')),
+      S.listItem()
+        .title('Gallery page')
+        .id('galleryPage')
+        .child(S.document().schemaType('galleryPage').documentId('galleryPage')),
+      S.listItem()
         .title('Donate page')
         .id('donatePage')
         .child(S.document().schemaType('donatePage').documentId('donatePage')),
@@ -46,6 +58,7 @@ export const structure: StructureResolver = (S) =>
 
       S.documentTypeListItem('story').title("Mothers' stories"),
       S.documentTypeListItem('programme').title('Programmes'),
+      S.documentTypeListItem('galleryImage').title('Gallery photos'),
 
       S.divider(),
 

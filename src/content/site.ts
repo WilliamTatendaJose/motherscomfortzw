@@ -1,10 +1,13 @@
 import type {
   AboutContent,
+  ContactContent,
   DonateContent,
+  GalleryContent,
   GetInvolvedContent,
   HomeContent,
   ImpactContent,
   SiteSettings,
+  StoriesContent,
   WhatWeDoContent,
 } from '@/lib/content/types'
 import { impactMetrics } from './programmes'
@@ -35,6 +38,18 @@ export const siteSettings: SiteSettings = {
     { platform: 'facebook', url: '' },
     { platform: 'instagram', url: '' },
   ],
+  // Single source for the header menu, mobile drawer and footer "Explore"
+  // column — see Header.tsx and Footer.tsx. "Home" and "Donate Now" are added
+  // around this list by the components that need them.
+  navigation: [
+    { label: 'About Us', href: '/about' },
+    { label: 'Our Work', href: '/what-we-do' },
+    { label: 'Our Impact', href: '/impact' },
+    { label: 'Gallery', href: '/gallery' },
+    { label: "A Mother's Story", href: '/stories' },
+    { label: 'Get Involved', href: '/get-involved' },
+    { label: 'Contact Us', href: '/contact' },
+  ],
 }
 
 export const homeContent: HomeContent = {
@@ -56,6 +71,8 @@ export const homeContent: HomeContent = {
   ctaHeading: "Let's help each other",
   ctaBody:
     'Every dollar makes a difference. $25 registers one expectant mother for antenatal care at a local polyclinic.',
+  // No override by default — the home page falls back to the root layout's
+  // own default title (the organisation name and tagline).
 }
 
 export const aboutContent: AboutContent = {
@@ -70,6 +87,11 @@ export const aboutContent: AboutContent = {
   // Source list read "Intergrity" and lowercase "transparency" — corrected here.
   values: ['Excellence', 'Nurture', 'Commitment', 'Integrity', 'Transparency'],
   storyHeading: 'How Mother’s Comfort began',
+  seo: {
+    title: 'About us',
+    description:
+      "Mother's Comfort improves the quality of life of vulnerable pregnant women and their children in Zimbabwe — our purpose, mission and values.",
+  },
 }
 
 export const whatWeDoContent: WhatWeDoContent = {
@@ -83,6 +105,11 @@ export const whatWeDoContent: WhatWeDoContent = {
   },
   ctaHeading: 'Support this work',
   ctaBody: '$120 covers a complete maternity support package for one mother.',
+  seo: {
+    title: 'What we do',
+    description:
+      "Antenatal care, counselling and economic empowerment — how Mother's Comfort supports expectant mothers in Zimbabwe.",
+  },
 }
 
 export const impactContent: ImpactContent = {
@@ -104,6 +131,11 @@ export const impactContent: ImpactContent = {
     'The need extends far beyond the women we have been able to reach. Many mothers across different communities and health facilities still face financial barriers to accessing antenatal care and preparing for their babies. With greater support, Mother’s Comfort can reach more women, more clinics and more communities.',
   ctaHeading: 'Help us reach more mothers',
   ctaBody: '$25 registers one expectant mother for antenatal care at a local polyclinic.',
+  seo: {
+    title: 'Our impact',
+    description:
+      "What Mother's Comfort has achieved so far — mothers, newborns and communities supported in Zimbabwe.",
+  },
 }
 
 export const getInvolvedContent: GetInvolvedContent = {
@@ -122,6 +154,13 @@ export const getInvolvedContent: GetInvolvedContent = {
   formHeading: "Tell us how you'd like to help",
   formBody:
     "Fill in the form and we'll get back to you. If you'd rather talk it through, message us on WhatsApp — the button is at the bottom of your screen.",
+  eventsEyebrow: 'Events',
+  eventsHeading: 'Come And Join Us',
+  seo: {
+    title: 'Get involved',
+    description:
+      "Volunteer, partner with us, run a donation drive or sponsor skills training — the ways to support Mother's Comfort.",
+  },
 }
 
 export const donateContent: DonateContent = {
@@ -144,4 +183,54 @@ export const donateContent: DonateContent = {
   inKindWarning: 'We do NOT accept loose diapers or opened packs of wipes.',
   // TODO(client): supply real bank details, or remove this block entirely.
   bankDetails: [],
+  seo: {
+    title: 'How to donate',
+    description:
+      "Donate to Mother's Comfort by card, EcoCash, OneMoney or InnBucks — or give baby essentials. $25 registers one expectant mother for antenatal care.",
+  },
+}
+
+export const storiesContent: StoriesContent = {
+  eyebrow: "A mother's story",
+  heading: 'Every woman has a story',
+  intro:
+    'These are the mothers behind our work, in their own words — what they faced, and what changed when someone helped.',
+  heroImage: null,
+  emptyStateText: 'Stories are being prepared. Please check back soon.',
+  ctaHeading: 'Help write the next story',
+  ctaBody: '$25 registers one expectant mother for antenatal care at a local polyclinic.',
+  seo: {
+    title: "A mother's story",
+    description:
+      "Real stories from the mothers Mother's Comfort supports, and from the founder whose own birth experience started it all.",
+  },
+}
+
+export const contactContent: ContactContent = {
+  eyebrow: 'Contact',
+  heading: 'Get in touch',
+  intro: "Questions about donating, volunteering or our work? We'd love to hear from you.",
+  heroImage: null,
+  talkHeading: 'Talk to us',
+  formHeading: 'Send us a message',
+  seo: {
+    title: 'Contact us',
+    description:
+      "Get in touch with Mother's Comfort in Harare, Zimbabwe — by phone, email or WhatsApp.",
+  },
+}
+
+export const galleryContent: GalleryContent = {
+  eyebrow: 'Gallery',
+  heading: 'Our work, in pictures',
+  intro:
+    'A look at the mothers, babies and volunteers behind Mother’s Comfort — antenatal care, skills training and the everyday moments in between.',
+  emptyStateText: 'Photos are being added. Please check back soon.',
+  ctaHeading: 'Help us do more of this',
+  ctaBody: 'Every dollar makes a difference to a mother preparing to welcome her baby.',
+  seo: {
+    title: 'Gallery',
+    description:
+      "Photos of Mother's Comfort's work in Zimbabwe — antenatal care, skills training and the mothers and babies we support.",
+  },
 }

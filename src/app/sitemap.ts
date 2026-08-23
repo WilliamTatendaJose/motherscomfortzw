@@ -15,6 +15,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '', priority: 1 },
     { path: '/about', priority: 0.8 },
     { path: '/what-we-do', priority: 0.8 },
+    { path: '/impact', priority: 0.7 },
+    { path: '/gallery', priority: 0.6 },
     { path: '/stories', priority: 0.9 },
     { path: '/donate', priority: 0.9 },
     { path: '/get-involved', priority: 0.7 },

@@ -8,17 +8,15 @@ import { useEffect, useRef, useState } from 'react'
 import { CloseIcon, MenuIcon } from '@/components/icons'
 import { ButtonLink } from '@/components/ui/Button'
 import { cn } from '@/lib/cn'
+import type { NavigationLink } from '@/lib/content/types'
 
-const navigation = [
-  { href: '/about', label: 'About Us' },
-  { href: '/what-we-do', label: 'Our Work' },
-  { href: '/impact', label: 'Our Impact' },
-  { href: '/stories', label: "A Mother's Story" },
-  { href: '/get-involved', label: 'Get Involved' },
-  { href: '/contact', label: 'Contact Us' },
-]
-
-export function Header({ organisationName }: { organisationName: string }) {
+export function Header({
+  organisationName,
+  navigation,
+}: {
+  organisationName: string
+  navigation: NavigationLink[]
+}) {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
   const closeButtonRef = useRef<HTMLButtonElement>(null)

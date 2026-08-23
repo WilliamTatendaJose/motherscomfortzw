@@ -8,23 +8,30 @@ import {
   programmeBodies,
   programmes,
 } from '@/content/programmes'
+import { galleryPhotos } from '@/content/gallery'
 import { stories } from '@/content/stories'
 import {
   aboutContent,
+  contactContent,
   donateContent,
+  galleryContent,
   getInvolvedContent,
   homeContent,
   impactContent,
   siteSettings,
+  storiesContent,
   whatWeDoContent,
 } from '@/content/site'
 import { imageProjection } from '@/lib/sanity/image'
 import { sanityFetch } from '@/lib/sanity/client'
 import type {
   AboutContent,
+  ContactContent,
   DonateContent,
   DonationTier,
   Faq,
+  GalleryContent,
+  GalleryPhoto,
   GetInvolvedContent,
   HomeContent,
   ImpactContent,
@@ -36,6 +43,7 @@ import type {
   SiteEvent,
   SiteSettings,
   Story,
+  StoriesContent,
   TeamMember,
   WhatWeDoContent,
 } from './types'
@@ -48,6 +56,9 @@ import type {
  */
 
 const nonEmpty = <T>(rows: T[] | null): rows is T[] => Array.isArray(rows) && rows.length > 0
+
+/** Shared projection for the optional per-page SEO overrides. */
+const seoProjection = `seo{title, description}`
 
 type SanityImpactContent = Omit<ImpactContent, 'impactResults'> & {
   impactResults?: {
@@ -62,19 +73,27 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   const data = await sanityFetch<SiteSettings>(
     `*[_type == "siteSettings"][0]{
       organisationName, tagline, shortDescription, email, phone, whatsapp, address,
-      socials[]{platform, url}
+      socials[]{platform, url},
+      navigation[]{label, href}
     }`,
     {},
     ['siteSettings'],
   )
-  return data ?? siteSettings
+  if (!data) return siteSettings
+
+  // An editor who empties the list should not accidentally take the whole
+  // site's navigation down — fall back to the built-in menu for that one field.
+  return {
+    ...data,
+    navigation: nonEmpty(data.navigation) ? data.navigation : siteSettings.navigation,
+  }
 }
 
 export async function getHomeContent(): Promise<HomeContent> {
   const data = await sanityFetch<HomeContent>(
     `*[_type == "homePage"][0]{
       heroHeading, heroSubheading, heroImage${imageProjection},
-      introHeading, introBody, ctaHeading, ctaBody
+      introHeading, introBody, ctaHeading, ctaBody, ${seoProjection}
     }`,
     {},
     ['homePage'],
@@ -85,7 +104,7 @@ export async function getHomeContent(): Promise<HomeContent> {
 export async function getAboutContent(): Promise<AboutContent> {
   const data = await sanityFetch<AboutContent>(
     `*[_type == "aboutPage"][0]{
-      purpose, missionPoints, values, storyHeading, storyImage${imageProjection}
+      purpose, missionPoints, values, storyHeading, storyImage${imageProjection}, ${seoProjection}
     }`,
     {},
     ['aboutPage'],
@@ -96,7 +115,7 @@ export async function getAboutContent(): Promise<AboutContent> {
 export async function getWhatWeDoContent(): Promise<WhatWeDoContent> {
   const data = await sanityFetch<WhatWeDoContent>(
     `*[_type == "whatWeDoPage"][0]{
-      eyebrow, heading, intro, heroImage${imageProjection}, ctaHeading, ctaBody
+      eyebrow, heading, intro, heroImage${imageProjection}, ctaHeading, ctaBody, ${seoProjection}
     }`,
     {},
     ['whatWeDoPage'],
@@ -112,7 +131,7 @@ export async function getImpactContent(): Promise<ImpactContent> {
       eyebrow, heading, intro,
       impactResults[]{_key, value, label, description},
       heroImage${imageProjection}, supportImage${imageProjection},
-      conclusionHeading, conclusionBody, ctaHeading, ctaBody
+      conclusionHeading, conclusionBody, ctaHeading, ctaBody, ${seoProjection}
     }`,
     {},
     ['impactPage'],
@@ -151,7 +170,7 @@ export async function getInvolvedPageContent(): Promise<GetInvolvedContent> {
   const data = await sanityFetch<GetInvolvedContent>(
     `*[_type == "getInvolvedPage"][0]{
       eyebrow, heading, intro, heroImage${imageProjection}, actionImage${imageProjection},
-      formHeading, formBody
+      formHeading, formBody, eventsEyebrow, eventsHeading, ${seoProjection}
     }`,
     {},
     ['getInvolvedPage'],
@@ -180,12 +199,61 @@ export async function getDonateContent(): Promise<DonateContent> {
     `*[_type == "donatePage"][0]{
       heading, intro, essentialsHeading, essentialsIntro, trainingHeading, trainingIntro,
       cashHeading, cashBody, inKindHeading, inKindBody, inKindWarning,
-      bankDetails[]{label, value}
+      bankDetails[]{label, value}, ${seoProjection}
     }`,
     {},
     ['donatePage'],
   )
   return data ?? donateContent
+}
+
+export async function getStoriesPageContent(): Promise<StoriesContent> {
+  const data = await sanityFetch<StoriesContent>(
+    `*[_type == "storiesPage"][0]{
+      eyebrow, heading, intro, heroImage${imageProjection},
+      emptyStateText, ctaHeading, ctaBody, ${seoProjection}
+    }`,
+    {},
+    ['storiesPage'],
+  )
+  return data
+    ? { ...storiesContent, ...data, heroImage: data.heroImage ?? storiesContent.heroImage }
+    : storiesContent
+}
+
+export async function getContactContent(): Promise<ContactContent> {
+  const data = await sanityFetch<ContactContent>(
+    `*[_type == "contactPage"][0]{
+      eyebrow, heading, intro, heroImage${imageProjection}, talkHeading, formHeading, ${seoProjection}
+    }`,
+    {},
+    ['contactPage'],
+  )
+  return data
+    ? { ...contactContent, ...data, heroImage: data.heroImage ?? contactContent.heroImage }
+    : contactContent
+}
+
+export async function getGalleryContent(): Promise<GalleryContent> {
+  const data = await sanityFetch<GalleryContent>(
+    `*[_type == "galleryPage"][0]{
+      eyebrow, heading, intro, emptyStateText, ctaHeading, ctaBody, ${seoProjection}
+    }`,
+    {},
+    ['galleryPage'],
+  )
+  return data ?? galleryContent
+}
+
+export async function getGalleryPhotos(): Promise<GalleryPhoto[]> {
+  const data = await sanityFetch<GalleryPhoto[]>(
+    `*[_type == "galleryImage"] | order(order asc){
+      _id, image${imageProjection}, caption, order
+    }`,
+    {},
+    ['galleryImage'],
+  )
+  return nonEmpty(data) ? data : galleryPhotos
 }
 
 export async function getProgrammes(): Promise<Programme[]> {

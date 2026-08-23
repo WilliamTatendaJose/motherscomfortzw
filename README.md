@@ -64,6 +64,18 @@ the content dataset. The Studio exposes them as two workspaces — `/studio/cont
 Before a project exists, `/studio` renders setup instructions rather than erroring, and the site
 serves the migrated fallback content.
 
+**Navigation is one list, not several.** `siteSettings.navigation` is what the header menu, the
+mobile drawer and the footer's "Explore" column all read — renaming or reordering a page there
+updates every one of them at once. "Home" and "Donate Now" are added around that list by the
+components that need them, so neither belongs in it. Every page singleton — including
+`contactPage`, `storiesPage` and `galleryPage` — carries a `seo` field that overrides its browser
+tab title and search/social description; leave it blank and the page falls back to its own default.
+
+**Gallery** (`/gallery`) is backed by a `galleryImage` collection (photo + optional caption) and a
+`galleryPage` singleton for the heading copy. It ships with three starter photos — real Mother's
+Comfort photographs already used elsewhere on the site, not stock imagery — so the page has content
+from day one; add "Gallery photo" documents in the Studio and they replace the starter set entirely.
+
 **Cache revalidation.** In Sanity Manage → API → Webhooks, add a webhook pointing at
 `https://<site>/api/revalidate`, triggering on create/update/delete, with the projection
 `{_type}` and the secret from `SANITY_REVALIDATE_SECRET`.

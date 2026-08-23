@@ -9,10 +9,14 @@ import { Section, SectionHeader } from '@/components/ui/Section'
 import { getImpactContent, getImpactStats } from '@/lib/content'
 import { imageUrl } from '@/lib/sanity/image'
 
-export const metadata: Metadata = {
-  title: 'Our impact',
-  description:
-    "What Mother's Comfort has achieved so far — mothers, newborns and communities supported in Zimbabwe.",
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getImpactContent()
+  return {
+    title: content.seo?.title || 'Our impact',
+    description:
+      content.seo?.description ||
+      "What Mother's Comfort has achieved so far — mothers, newborns and communities supported in Zimbabwe.",
+  }
 }
 
 export default async function ImpactPage() {

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import Image from 'next/image'
 
 import { CTABanner } from '@/components/content/CTABanner'
@@ -15,6 +16,18 @@ import {
   getProgrammes,
 } from '@/lib/content'
 import { imageUrl } from '@/lib/sanity/image'
+
+/**
+ * No fallback title/description here: without an override the home page
+ * should inherit the root layout's default (the organisation name and
+ * tagline), which is itself already Sanity-sourced. Only an explicit
+ * `homePage.seo` entry changes what shows in the tab or in search results.
+ */
+export async function generateMetadata(): Promise<Metadata> {
+  const home = await getHomeContent()
+  if (!home.seo?.title && !home.seo?.description) return {}
+  return { title: home.seo?.title, description: home.seo?.description }
+}
 
 export default async function HomePage() {
   const [home, programmes, stories, stats, tiers] = await Promise.all([

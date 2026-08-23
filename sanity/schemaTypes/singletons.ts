@@ -13,6 +13,7 @@ export const siteSettings = defineType({
   groups: [
     { name: 'brand', title: 'Brand', default: true },
     { name: 'contact', title: 'Contact' },
+    { name: 'navigation', title: 'Navigation' },
     { name: 'seo', title: 'Search & social' },
   ],
   fields: [
@@ -73,6 +74,17 @@ export const siteSettings = defineType({
       of: [{ type: 'socialLink' }],
       group: 'contact',
       description: 'Leave empty to hide the social links entirely.',
+    }),
+
+    defineField({
+      name: 'navigation',
+      title: 'Menu links',
+      type: 'array',
+      of: [{ type: 'navLink' }],
+      group: 'navigation',
+      description:
+        'The header menu, mobile menu, and footer "Explore" column all read this same list. "Home" and "Donate Now" are added automatically where each of those needs them and do not belong in this list.',
+      validation: (rule) => rule.min(1).warning('An empty list falls back to the built-in menu.'),
     }),
 
     defineField({ name: 'seo', type: 'seo', group: 'seo' }),
@@ -327,9 +339,137 @@ export const getInvolvedPage = defineType({
       initialValue: "Tell us how you'd like to help",
     }),
     defineField({ name: 'formBody', title: 'Form section text', type: 'text', rows: 3 }),
+    defineField({
+      name: 'eventsEyebrow',
+      title: 'Small label above the events heading',
+      type: 'string',
+      initialValue: 'Events',
+    }),
+    defineField({
+      name: 'eventsHeading',
+      title: 'Events section heading',
+      type: 'string',
+      initialValue: 'Come And Join Us',
+      description: 'Only shown when there is at least one upcoming event.',
+    }),
     defineField({ name: 'seo', type: 'seo' }),
   ],
   preview: { prepare: () => ({ title: 'Get involved page' }) },
+})
+
+export const storiesPage = defineType({
+  name: 'storiesPage',
+  title: 'Stories page',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'eyebrow',
+      title: 'Small label above the heading',
+      type: 'string',
+      initialValue: "A Mother's Story",
+    }),
+    defineField({
+      name: 'heading',
+      title: 'Main page heading',
+      type: 'string',
+      validation: (rule) => rule.required().max(90),
+    }),
+    defineField({
+      name: 'intro',
+      title: 'Supporting introduction',
+      type: 'text',
+      rows: 3,
+      validation: (rule) => rule.max(320),
+    }),
+    defineField({
+      name: 'heroImage',
+      title: 'Page header image',
+      type: 'imageWithAlt',
+      description: 'Shown beside the page introduction.',
+    }),
+    defineField({
+      name: 'emptyStateText',
+      title: 'Text shown when there are no stories yet',
+      type: 'string',
+    }),
+    defineField({ name: 'ctaHeading', title: 'Closing banner heading', type: 'string' }),
+    defineField({ name: 'ctaBody', title: 'Closing banner message', type: 'text', rows: 2 }),
+    defineField({ name: 'seo', type: 'seo' }),
+  ],
+  preview: { prepare: () => ({ title: 'Stories page' }) },
+})
+
+export const contactPage = defineType({
+  name: 'contactPage',
+  title: 'Contact page',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'eyebrow',
+      title: 'Small label above the heading',
+      type: 'string',
+      initialValue: 'Contact',
+    }),
+    defineField({
+      name: 'heading',
+      title: 'Main page heading',
+      type: 'string',
+      validation: (rule) => rule.required().max(90),
+    }),
+    defineField({
+      name: 'intro',
+      title: 'Supporting introduction',
+      type: 'text',
+      rows: 3,
+      validation: (rule) => rule.max(320),
+    }),
+    defineField({
+      name: 'heroImage',
+      title: 'Page header image',
+      type: 'imageWithAlt',
+      description: 'Shown beside the page introduction.',
+    }),
+    defineField({ name: 'talkHeading', title: 'Contact details heading', type: 'string' }),
+    defineField({ name: 'formHeading', title: 'Contact form heading', type: 'string' }),
+    defineField({ name: 'seo', type: 'seo' }),
+  ],
+  preview: { prepare: () => ({ title: 'Contact page' }) },
+})
+
+export const galleryPage = defineType({
+  name: 'galleryPage',
+  title: 'Gallery page',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'eyebrow',
+      title: 'Small label above the heading',
+      type: 'string',
+      initialValue: 'Gallery',
+    }),
+    defineField({
+      name: 'heading',
+      title: 'Main page heading',
+      type: 'string',
+      validation: (rule) => rule.required().max(90),
+    }),
+    defineField({
+      name: 'intro',
+      title: 'Supporting introduction',
+      type: 'text',
+      rows: 3,
+      validation: (rule) => rule.max(320),
+    }),
+    defineField({
+      name: 'emptyStateText',
+      title: 'Text shown when there are no photos yet',
+      type: 'string',
+    }),
+    defineField({ name: 'ctaHeading', title: 'Closing banner heading', type: 'string' }),
+    defineField({ name: 'ctaBody', title: 'Closing banner message', type: 'text', rows: 2 }),
+    defineField({ name: 'seo', type: 'seo' }),
+  ],
+  preview: { prepare: () => ({ title: 'Gallery page' }) },
 })
 
 export const donatePage = defineType({
@@ -393,6 +533,9 @@ export const singletonTypes = [
   whatWeDoPage,
   impactPage,
   getInvolvedPage,
+  storiesPage,
+  contactPage,
+  galleryPage,
   donatePage,
 ]
 

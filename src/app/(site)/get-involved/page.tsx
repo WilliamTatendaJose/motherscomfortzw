@@ -9,10 +9,14 @@ import { Section, SectionHeader } from '@/components/ui/Section'
 import { getInvolvedPageContent, getInvolvementWays, getUpcomingEvents } from '@/lib/content'
 import { imageUrl } from '@/lib/sanity/image'
 
-export const metadata: Metadata = {
-  title: 'Get involved',
-  description:
-    "Volunteer, partner with us, run a donation drive or sponsor skills training — the ways to support Mother's Comfort.",
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await getInvolvedPageContent()
+  return {
+    title: content.seo?.title || 'Get involved',
+    description:
+      content.seo?.description ||
+      "Volunteer, partner with us, run a donation drive or sponsor skills training — the ways to support Mother's Comfort.",
+  }
 }
 
 export default async function GetInvolvedPage() {
@@ -83,7 +87,7 @@ export default async function GetInvolvedPage() {
 
       {events.length > 0 && (
         <Section tone="cream">
-          <SectionHeader eyebrow="Events" title="Come And Join Us" />
+          <SectionHeader eyebrow={content.eventsEyebrow} title={content.eventsHeading} />
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {events.map((event) => (
               <article key={event._id} className="rounded-card bg-white p-7 shadow-soft">

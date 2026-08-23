@@ -326,6 +326,32 @@ export const page = defineType({
   preview: { select: { title: 'title', subtitle: 'slug.current' } },
 })
 
+export const galleryImage = defineType({
+  name: 'galleryImage',
+  title: 'Gallery photo',
+  type: 'document',
+  description: 'One photo in the Gallery page showcasing the charity’s work.',
+  fields: [
+    defineField({
+      name: 'image',
+      title: 'Photo',
+      type: 'imageWithAlt',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'caption',
+      title: 'Caption',
+      type: 'string',
+      description: 'Optional short caption shown with the photo.',
+    }),
+    orderField,
+  ],
+  preview: {
+    select: { title: 'caption', media: 'image' },
+    prepare: ({ title, media }) => ({ title: title || 'Gallery photo', media }),
+  },
+})
+
 export const collectionTypes = [
   programme,
   donationTier,
@@ -333,6 +359,7 @@ export const collectionTypes = [
   impactStat,
   impactMetric,
   involvementWay,
+  galleryImage,
   event,
   teamMember,
   faq,

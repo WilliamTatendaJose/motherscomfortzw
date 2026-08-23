@@ -24,11 +24,14 @@ import {
 import { stories } from '../../src/content/stories'
 import {
   aboutContent,
+  contactContent,
   donateContent,
+  galleryContent,
   getInvolvedContent,
   homeContent,
   impactContent,
   siteSettings,
+  storiesContent,
   whatWeDoContent,
 } from '../../src/content/site'
 
@@ -79,6 +82,12 @@ async function run() {
     email: siteSettings.email,
     // Social URLs were empty on the old site; left out so the links stay hidden.
     socials: [],
+    navigation: siteSettings.navigation.map((link, index) => ({
+      _type: 'navLink',
+      _key: `nav${index}`,
+      label: link.label,
+      href: link.href,
+    })),
   })
 
   documents.push({
@@ -90,6 +99,7 @@ async function run() {
     introBody: homeContent.introBody,
     ctaHeading: homeContent.ctaHeading,
     ctaBody: homeContent.ctaBody,
+    seo: homeContent.seo ?? undefined,
   })
 
   documents.push({
@@ -99,6 +109,7 @@ async function run() {
     missionPoints: aboutContent.missionPoints,
     values: aboutContent.values,
     storyHeading: aboutContent.storyHeading,
+    seo: aboutContent.seo ?? undefined,
   })
 
   documents.push({
@@ -109,6 +120,7 @@ async function run() {
     intro: whatWeDoContent.intro,
     ctaHeading: whatWeDoContent.ctaHeading,
     ctaBody: whatWeDoContent.ctaBody,
+    seo: whatWeDoContent.seo ?? undefined,
   })
 
   documents.push({
@@ -127,6 +139,7 @@ async function run() {
     conclusionBody: impactContent.conclusionBody,
     ctaHeading: impactContent.ctaHeading,
     ctaBody: impactContent.ctaBody,
+    seo: impactContent.seo ?? undefined,
   })
 
   documents.push({
@@ -137,6 +150,44 @@ async function run() {
     intro: getInvolvedContent.intro,
     formHeading: getInvolvedContent.formHeading,
     formBody: getInvolvedContent.formBody,
+    eventsEyebrow: getInvolvedContent.eventsEyebrow,
+    eventsHeading: getInvolvedContent.eventsHeading,
+    seo: getInvolvedContent.seo ?? undefined,
+  })
+
+  documents.push({
+    _id: 'storiesPage',
+    _type: 'storiesPage',
+    eyebrow: storiesContent.eyebrow,
+    heading: storiesContent.heading,
+    intro: storiesContent.intro,
+    emptyStateText: storiesContent.emptyStateText,
+    ctaHeading: storiesContent.ctaHeading,
+    ctaBody: storiesContent.ctaBody,
+    seo: storiesContent.seo ?? undefined,
+  })
+
+  documents.push({
+    _id: 'contactPage',
+    _type: 'contactPage',
+    eyebrow: contactContent.eyebrow,
+    heading: contactContent.heading,
+    intro: contactContent.intro,
+    talkHeading: contactContent.talkHeading,
+    formHeading: contactContent.formHeading,
+    seo: contactContent.seo ?? undefined,
+  })
+
+  documents.push({
+    _id: 'galleryPage',
+    _type: 'galleryPage',
+    eyebrow: galleryContent.eyebrow,
+    heading: galleryContent.heading,
+    intro: galleryContent.intro,
+    emptyStateText: galleryContent.emptyStateText,
+    ctaHeading: galleryContent.ctaHeading,
+    ctaBody: galleryContent.ctaBody,
+    seo: galleryContent.seo ?? undefined,
   })
 
   documents.push({
@@ -154,6 +205,7 @@ async function run() {
     inKindBody: donateContent.inKindBody,
     inKindWarning: donateContent.inKindWarning,
     bankDetails: [],
+    seo: donateContent.seo ?? undefined,
   })
 
   for (const programme of programmes) {
@@ -247,6 +299,8 @@ async function run() {
   console.log('Next steps:')
   console.log('  1. Open /studio and check each document.')
   console.log('  2. Upload images — the seed imports text only, not photographs.')
+  console.log('     The Gallery page shows 3 starter photos until you add "Gallery photo"')
+  console.log('     documents in the Studio, which then replace them entirely.')
   console.log('  3. Confirm the postal address in Site settings (the old site had three).')
   console.log('  4. Confirm consent is on file for every published story.')
 }
