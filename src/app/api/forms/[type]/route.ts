@@ -73,7 +73,7 @@ export async function POST(request: Request, context: { params: Promise<{ type: 
   )
 
   // Store first, notify second: if email delivery fails the message still exists.
-  await persist({
+  const stored = await persist({
     _type: 'submission',
     formType: type,
     submittedAt: new Date().toISOString(),
@@ -84,11 +84,25 @@ export async function POST(request: Request, context: { params: Promise<{ type: 
   // number, and an empty reply-to makes some providers reject the message.
   const email = typeof data.email === 'string' ? data.email.trim() : ''
 
-  await sendNotification({
+  const notified = await sendNotification({
     subject: SUBJECTS[type],
     fields,
     replyTo: email || undefined,
   })
+
+  // Either one is enough for the charity to see the message. With neither, it
+  // exists nowhere — tell the visitor rather than thank them for nothing.
+  if (!stored && !notified) {
+    console.error(`[forms] ${type} submission was neither stored nor emailed`)
+    return NextResponse.json(
+      {
+        ok: false,
+        message:
+          'Sorry, we could not send your message just now. Please try again later, or reach us by phone or WhatsApp.',
+      },
+      { status: 503 },
+    )
+  }
 
   return NextResponse.json({ ok: true, message: SUCCESS_MESSAGES[type] })
 }
